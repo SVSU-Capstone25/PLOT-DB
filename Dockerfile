@@ -15,10 +15,7 @@ COPY . /usr/config
 RUN chmod +x /usr/config/entrypoint.sh
 RUN chmod +x /usr/config/init.sh
 
-# Switch back to the default non-root user
-USER mssql
-
 # Expose SQL Server port
 EXPOSE 1433
 
-ENTRYPOINT ["./entrypoint.sh"]
+CMD ["./entrypoint.sh"]
