@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# ! If you're running windows, make sure this file is 
+# ! LF instead of CLRF in VSCode on the bottom right
+
 # Wait 60 seconds for SQL Server to start up
 DBSTATUS=1
 ERRCODE=1
