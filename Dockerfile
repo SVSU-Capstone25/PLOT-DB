@@ -19,3 +19,6 @@ RUN chmod +x /usr/config/init.sh
 EXPOSE 1433
 
 CMD ["./entrypoint.sh"]
+
+# Switch back to the default non-root user
+USER mssql
