@@ -1,0 +1,21 @@
+/*
+Filename: Sales.sql
+Part of Project: PLOT/PLOT-DB/src/tables
+
+File Purpose:
+This file contains the commands to create the Sales table for the database.
+
+Written by: Krzysztof Hejno
+*/
+
+-- Create Sales Table
+CREATE TABLE Sales (
+    TUID INT PRIMARY KEY,
+    FILENAME VARCHAR(100) NOT NULL UNIQUE,   --may need to be unique to avoid overriding files
+    FILEPATH VARBINARY(1) NOT NULL,
+    CAPTURE_DATE DATETIME NOT NULL, 
+    DATE_UPLOADED DATETIME NOT NULL,
+    LAYOUT_TUID INT,
+    FOREIGN KEY (LAYOUT_TUID) REFERENCES Layout(TUID)
+);
+GO

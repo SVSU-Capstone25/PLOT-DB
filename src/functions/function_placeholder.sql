@@ -1,19 +1,22 @@
--- ? File is merely a boilerplate and can be removed once we get more files in this directory.
--- Create Function to Get User Name by UserID
-CREATE FUNCTION GetUserName(@UserID INT)
+/*
+Filename: getUserInfo.sql
+Part of Project: PLOT/PLOT-DB/src/functions
+
+File Purpose:
+This file contains functions pertaining to getting user information
+
+Written by: Krzysztof Hejno
+*/
+
+-- TO-DO: This is just a placeholder, may end up putting multiple functions per file, separate files for each broader functionality --
+
+-- Create Function to Get User Role by UserTUID
+CREATE FUNCTION GetUserRole(@UserTUID INT)
 RETURNS NVARCHAR(50)
 AS
 BEGIN
-    RETURN (SELECT UserName FROM Users WHERE UserID = @UserID);
+    --placeholder for a function to get roles 
+    RETURN (SELECT Name FROM Role WHERE TUID = @UserTUID);
 END;
 GO
 
--- Create Orders Table
-CREATE TABLE Orders (
-    OrderID INT PRIMARY KEY IDENTITY(1,1),
-    UserID INT NOT NULL,
-    OrderDate DATETIME DEFAULT GETDATE(),
-    TotalAmount DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID)
-);
-GO
