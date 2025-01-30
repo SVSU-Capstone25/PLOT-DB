@@ -3,7 +3,7 @@ Filenname: delete_floorset.sql
 Part of Project: PLOT/PLOT-DB/src/triggers
 
 File Purpose:
-When a fixture is deleted from fixtures table,
+When a floorset is deleted from floorsets table,
 delete the fixture from the floorset_fixtures table.
 
 Written by: Andrew Miller
@@ -13,9 +13,13 @@ ON dbo.FLOORSETS
 AFTER DELETE
 AS
 BEGIN
-	/* Delete Floorset records in the floorsets-fixtures
+	/* Delete floorset records in the floorsets-fixtures
 	association table when its TUID matches that deleted in floorsets */
     DELETE FROM FLOORSET_FIXTURES
     WHERE FLOORSET_TUID IN (SELECT TUID FROM deleted);
+	
+	/* Delete sales data records in database associated with floorset */
+	DELETE FROM SALES
+	WHERE FLOORSET_TUID IN (SELECT TUID FROM SALES);
 END;
 GO
