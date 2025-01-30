@@ -43,28 +43,28 @@ RETURN (
 );
 GO
 
--- Function: Get Fixture Positions in a Layout by Name
-CREATE FUNCTION GetFixturePositionsByLayout(@LayoutName NVARCHAR(100))
+-- Function: Get Fixture Positions in a floorset by Name
+CREATE FUNCTION GetFixturePositionsByFloorset(@floorsetName NVARCHAR(100))
 RETURNS TABLE
 AS
 RETURN (
     SELECT f.NAME AS FixtureName, lf.X_POS, lf.Y_POS
-    FROM layout_fixtures lf
-    INNER JOIN layout l ON lf.LAYOUT_TUID = l.TUID
+    FROM floorset_fixtures lf
+    INNER JOIN floorset l ON lf.FLOORSET_TUID = l.TUID
     INNER JOIN fixtures f ON lf.FIXTURE_TUID = f.TUID
-    WHERE l.NAME = @LayoutName
+    WHERE l.NAME = @floorsetName
 );
 GO
 
--- Function: Get Layouts Using a Specific Fixture by Name
-CREATE FUNCTION GetLayoutUsingFixture(@FixtureName NVARCHAR(100))
+-- Function: Get floorsets Using a Specific Fixture by Name
+CREATE FUNCTION GetFloorsetUsingFixture(@FixtureName NVARCHAR(100))
 RETURNS TABLE
 AS
 RETURN (
     SELECT l.TUID, l.NAME, l.DATE_CREATED, l.DATE_MODIFIED
-    FROM layout_fixtures ff
+    FROM floorset_fixtures ff
     INNER JOIN fixtures f ON ff.FIXTURE_TUID = f.TUID
-    INNER JOIN Layout l ON ff.LAYOUT_TUID = l.TUID
+    INNER JOIN floorset l ON ff.FLOORSET_TUID = l.TUID
     WHERE f.NAME = @FixtureName
 );
 GO
