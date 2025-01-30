@@ -3,29 +3,28 @@ Filenname: delete_store.sql
 Part of Project: PLOT/PLOT-DB/src/triggers
 
 File Purpose:
-Trigger so that when store is deleted from store table:
-
--Store IDs for that store are deleted from the access table.
-
--Floorsets from that store are deleted from floorsets table.
-
--Fixtures from that store are deleted from fixtures table.
+Trigger so that when store is deleted from store table,
+floorsets from that store are deleted from floorsets table,
+and fixtures from that store are deleted from fixtures table
 
 Written by: Andrew Miller
 */
 
 CREATE TRIGGER Delete_Store
-AFTER DELETE
 ON dbo.STORE
-AFTER DELETE AS
+AFTER DELETE
+AS
 BEGIN
-	DELETE FROM ACCESS
-	WHERE STORE_TUID = OLD.TUID;
-	
+	/* Delete records from the access table matching the store's TUID */
+    DELETE FROM ACCESS
+    WHERE STORE_TUID IN (SELECT TUID FROM deleted);
+
+	/* Delete records from the floorsets table matching the store's TUID */
 	DELETE FROM FLOORSETS
-	WHERE TUID = OLD.TUID;
-	
+	WHERE STORE_TUID IN (SELECT TUID FROM deleted);
+
+	/* Delete records from the fixtures table matching the store's TUID */
 	DELETE FROM FIXTURES
-	WHERE TUID = OLD.TUID;
+	WHERE STORE_TUID IN (SELECT TUID FROM deleted);
 END;
 GO
