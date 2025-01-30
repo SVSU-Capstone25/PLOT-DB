@@ -14,10 +14,10 @@ Written by: Andrew Miller
 
 -- Create floorsets_fixtures table
 CREATE TABLE Floorsets_Fixtures (
-	FLOORSET_TUID INT,				/* TUID of Floorset */
-	FIXTURE_TUID INT,				/* TUID of Fixture */
-	X_POS DECIMAL(9,6),				/* X-Coordinate */
-	Y_POS DECIMAL(9,6),				/* Y-Coordinate */
+	FLOORSET_TUID INT,							/* TUID of Floorset */
+	FIXTURE_TUID INT,							/* TUID of Fixture */
+	X_POS DECIMAL(9,6) NOT NULL,				/* X-Coordinate */
+	Y_POS DECIMAL(9,6) NOT NULL,				/* Y-Coordinate */
 	PRIMARY KEY(FLOORSET_TUID, FIXTURE_TUID),
 	FOREIGN KEY(FLOORSET_TUID) REFERENCES Floorsets(TUID),
 	FOREIGN KEY(FIXTURE_TUID) REFERENCES Fixtures(TUID)
