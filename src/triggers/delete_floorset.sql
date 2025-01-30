@@ -15,7 +15,7 @@ AS
 BEGIN
 	/* Delete floorset records in the floorsets-fixtures
 	association table when its TUID matches that deleted in floorsets */
-    DELETE FROM FLOORSET_FIXTURES
+    DELETE FROM FLOORSETS_FIXTURES
     WHERE FLOORSET_TUID IN (SELECT TUID FROM deleted);
 	
 	/* Delete sales data records in database associated with floorset */
