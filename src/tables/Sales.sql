@@ -10,7 +10,7 @@ Written by: Krzysztof Hejno
 
 -- Create Sales Table
 CREATE TABLE Sales (
-    TUID INT PRIMARY KEY,
+    TUID IDENTITY(1,1) PRIMARY KEY,
     FILENAME VARCHAR(100) NOT NULL UNIQUE,   --may need to be unique to avoid overriding files
     FILEPATH VARBINARY(1) NOT NULL,
     CAPTURE_DATE DATETIME NOT NULL, 
