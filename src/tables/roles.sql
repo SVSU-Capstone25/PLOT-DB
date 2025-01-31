@@ -11,7 +11,11 @@ Written by: Andrew Miller
 --Create Roles Table--
 
 CREATE TABLE Roles (
-	TUID INT PRIMARY KEY,			/* ID of Role */
-	NAME VARCHAR(100) NOT NULL		/* Name of Role */
+
+	/* ID of Role - Identity Sets TUID as Autoincremented */
+	TUID INT IDENTITY(1,1) PRIMARY KEY,
+
+	/* Name of Role */
+	NAME VARCHAR(100) NOT NULL
 );
 GO
