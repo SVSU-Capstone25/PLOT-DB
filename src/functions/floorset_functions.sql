@@ -45,3 +45,16 @@ RETURN (
 );
 END;
 GO
+
+
+
+-- Function: Get store information for a specific store based on its name
+CREATE FUNCTION [dbo].[GetStoreInfoByName](@StoreName varchar(100))
+RETURNS TABLE
+AS
+RETURN (
+    SELECT s.TUID,s.WIDTH,s.HEIGHT,s.ADDRESS,s.BLUEPRINT_IMAGE
+    FROM Store s
+    WHERE s.NAME = @StoreName
+);
+GO
