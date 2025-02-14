@@ -1,5 +1,5 @@
 /*
-Filename: layouts.sql
+Filename: floorsets.sql
 Part of Project: PLOT/PLOT-DB/src/tables
 
 File Purpose:
