@@ -16,6 +16,7 @@ CREATE TABLE Users (
     EMAIL VARCHAR(320) NOT NULL UNIQUE, --I made email unique as well (differnt from SRS)
     PASSWORD VARCHAR(100) NOT NULL,
     ROLE_TUID INT,
+    ACTIVE BIT NOT NULL DEFAULT 1,      --deafult of being an active employee
     FOREIGN KEY (ROLE_TUID) REFERENCES Roles(TUID)
 );
 GO
