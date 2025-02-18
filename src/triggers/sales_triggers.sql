@@ -1,34 +1,22 @@
-
 -- =============================================
--- Author:      <Krzysztof,Hejno>
+-- Author:      <Krzysztof.Hejno>
 -- Create Date: <2/11/2025>
--- Description: <This procedure finds the store TUID to attach the floorset to and adds a new floorset to the table based on multiple parameters.>
+-- Description: <This trigger will delete any previous sales data linked to the same floorset when new data is inserted>
 -- =============================================
-CREATE PROCEDURE [dbo].[AddNewFloorset]
-(
-    @StoreName varchar(100),
-	@Name varchar(100),
-	@CreatedBy int
-)
+
+CREATE TRIGGER [dbo].[trg_DeleteOldSalesOnInsert]
+ON [dbo].[Sales]
+AFTER INSERT
 AS
 BEGIN
-    -- SET NOCOUNT ON added to prevent extra result sets from
-    -- interfering with SELECT statements.
-    SET NOCOUNT ON
+	SET NOCOUNT ON;
 
-	BEGIN TRY
-		INSERT INTO Floorsets (NAME,STORE_TUID,DATE_CREATED,CREATED_BY,DATE_MODIFIED,MODIFIED_BY) 
-		VALUES (@Name,(SELECT TUID FROM dbo.GetStoreInfoByName(@StoreName)),GETDATE(),@CreatedBy,GETDATE(),@CreatedBy);
+	DELETE FROM Sales WHERE FLOORSET_TUID IN (SELECT FLOORSET_TUID FROM inserted)
+	AND TUID NOT IN (SELECT TUID FROM inserted);
 
-		SELECT 'OK 200' AS Response;
-	END TRY
-
-    BEGIN CATCH
-        -- If insert fails, return ERROR 500
-        SELECT 'ERROR 500' AS Response, ERROR_MESSAGE() AS ErrorDetails;
-    END CATCH;
-
-END
+END;
 GO
 
+ALTER TABLE [dbo].[Sales] ENABLE TRIGGER [trg_DeleteOldSalesOnInsert]
+GO
 
