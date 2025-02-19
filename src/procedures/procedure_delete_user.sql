@@ -40,7 +40,7 @@ BEGIN
         -- User does not exist
         BEGIN
             -- User not found in users table
-            SET @ResultMessage = 'NOT FOUND 404';
+            SET @ResultMessage = 'NOT FOUND 500';
         END;
 
     END TRY
