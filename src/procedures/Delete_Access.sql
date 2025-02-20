@@ -1,5 +1,5 @@
 /* 
-	Filename: proc_revoke_store_access.sql
+	Filename: Delete_Access.sql
 
 	File Purpose: Revoke access for a given
 	user to a given store.
@@ -7,16 +7,14 @@
 	Written By: Andrew Miller
 */
 
-CREATE PROCEDURE revoke_store_access
+CREATE PROCEDURE Delete_Access
 
 	-- User to revoke access for
 	@User_tuid INT,	
 	
 	-- Store to revoke access to
-	@Store_tuid INT,
+	@Store_tuid INT
 	
-	-- Message indicating procedure success or failure
-	@result_message NVARCHAR(255) OUTPUT
 AS
 BEGIN
 
@@ -31,18 +29,18 @@ BEGIN
 			DELETE FROM access
 			WHERE USER_TUID = @User_tuid AND STORE_TUID = @Store_tuid
 			
-			SET @result_message = 'OK 200';
+			SELECT 'OK 200' As Response;
 		END TRY
 		BEGIN CATCH
 			-- Handle errors
-			SET @result_message = ERROR_MESSAGE();
+			SELECT ERROR_MESSAGE() As Response;
 		END CATCH
 	END
 
 	-- If either store or user does NOT exist
 	ELSE
 	BEGIN
-	    SET @result_message = 'NOT FOUND 500';
+	    SELECT 'NOT FOUND 500' As Response;
 	END
 END;
 GO
