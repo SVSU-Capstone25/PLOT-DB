@@ -1,5 +1,5 @@
 /*
-Filename: procedure_delete_user.sql
+Filename: Delete_User.sql
 Part of Project: PLOT/PLOT-DB/src/procedures
 
 File Purpose:
@@ -7,14 +7,16 @@ This file contains the stored procedure for "deleting" a user.
 Since information on "deleted" users is still needed in the
 floorsets table the "Active" column in the users table is set
 to 0 to indicate inactive.
+
+All rows with the user_tuid is then removed from the access table.
 */
 
---  Stored procedure to delete (inactivate) user
---  make user "ACTIVE" column inactive i.e. 0
-CREATE PROCEDURE procedure_delete_user
-    @UserId INT, -- Id of user to be deleted
-    @ResultMessage NVARCHAR(255) OUTPUT -- Output message
-    -- success or fail or error
+CREATE PROCEDURE Delete_User
+    --  Stored procedure to delete (inactivate) user
+    --  make user "ACTIVE" column inactive i.e. 0
+
+    @UserId INT -- Id of user to be deleted
+
 AS
 BEGIN
     BEGIN TRY
@@ -32,22 +34,22 @@ BEGIN
             DELETE FROM access
             WHERE USER_TUID = @UserId;
 
-            -- Set the output message for success
-            SET @ResultMessage = 'OK 200';
+            -- Successful response
+            SELECT 'OK 200' AS Response;
         END
 
         ELSE
         -- User does not exist
         BEGIN
-            -- User not found in users table
-            SET @ResultMessage = 'NOT FOUND 500';
+            -- Failed response
+            SELECT 'NOT FOUND 500' As Response;
         END;
 
     END TRY
 
     BEGIN CATCH
         -- Error
-        SET @ResultMessage = ERROR_MESSAGE();
+        SELECT ERROR_MESSAGE() As Response;
     END CATCH
 
 END;
