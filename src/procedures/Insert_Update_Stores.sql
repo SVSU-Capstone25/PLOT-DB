@@ -1,3 +1,14 @@
+/*
+Filename: Insert_Update_Stores.sql
+Part of Project: PLOT/PLOT-DB/src/procedures
+
+File Purpose:
+This file contains the Stored Procedure for inserting and updating the Store table.
+This also inserts the users into the access table for thea store.
+
+Written by: Andrew Fulton
+*/
+
 ALTER PROCEDURE Insert_Update_Stores
     --TUID null for deciding if it should insert or update
 	@TUID INT = NULL,  
@@ -70,12 +81,23 @@ BEGIN
         WHERE Users.ROLE_TUID = 1; --Owner TUID is 1 in DB
         
         --INSERT users into the Access table for the store
+        -- error will most likely be from owners trying to be inserted into the access table again
         IF @UserTUIDs IS NOT NULL AND @UserTUIDs <> ''
         BEGIN
-            INSERT INTO Access (USER_TUID, STORE_TUID)
-            SELECT VALUE, @TUID
-            FROM STRING_SPLIT(@UserTUIDs, ',');
+            BEGIN TRY
+                INSERT INTO Access (USER_TUID, STORE_TUID)
+                SELECT VALUE, @TUID
+                FROM STRING_SPLIT(@UserTUIDs, ',');
+            END TRY
+            BEGIN CATCH
+                -- If the error is a duplicate key violation (error number 2627)
+                IF ERROR_NUMBER() = 2627
+                BEGIN
+                    PRINT 'Duplicate key error ignored. Continuing execution...';
+                END
+            END CATCH;
         END;
+
 
         --Return the updated TUID
         SELECT @TUID AS UpdatedTUID;
