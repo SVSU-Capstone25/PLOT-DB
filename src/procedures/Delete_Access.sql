@@ -21,7 +21,7 @@ BEGIN
 	-- If store and user both exist
 	IF EXISTS (SELECT 1 FROM Users WHERE TUID = @User_tuid)
 	AND 
-	EXISTS (SELECT 1 FROM Stores WHERE TUID = @Store_tuid)
+	EXISTS (SELECT 1 FROM Store WHERE TUID = @Store_tuid)
 
 	BEGIN
 		BEGIN TRY
