@@ -9,18 +9,15 @@ Written by: Krzysztof Hejno
 */
 
 -- Function: Get Fixture Details by floorset
-CREATE FUNCTION GetFixturesByFloorset(@floorsetTUID INT)
+ALTER FUNCTION [dbo].[GetFixturesByFloorset](@floorsetTUID INT)
 RETURNS TABLE
 AS
-BEGIN
 RETURN (
-    SELECT ff.FLOORSET_TUID, f.NAME, f.WIDTH, f.HEIGHT, ff.X_POS, ff.Y_POS
-    FROM floorset_fixtures lf
+    SELECT ff.FLOORSET_TUID, f.NAME, f.WIDTH, f.HEIGHT, ff.X_POS, ff.Y_POS, ff.ALLOCATED_LF, ff.CATEGORY, ff.NOTE
+    FROM floorsets_fixtures ff
     INNER JOIN fixtures f ON ff.FIXTURE_TUID = f.TUID
-    WHERE lf.FLOORSET_TUID = @floorsetTUID
+    WHERE ff.FLOORSET_TUID = @floorsetTUID
 );
-END;
-GO
 
 -- Function: Count Fixtures in a floorset
 CREATE FUNCTION CountFixturesInFloorset(@floorsetTUID INT)
@@ -48,7 +45,7 @@ GO
 
 
 
--- Function: Get store information for a specific store based on its name
+-- Function: Get store information for a store based on its name
 CREATE FUNCTION [dbo].[GetStoreInfoByName](@StoreName varchar(100))
 RETURNS TABLE
 AS
