@@ -1,5 +1,5 @@
 /*
-Filenname: delete_fixture.sql
+Filenname: trg_DeleteForeignKeysForFixtureOnDelete.sql
 Part of Project: PLOT/PLOT-DB/src/triggers
 
 File Purpose:
@@ -9,7 +9,7 @@ delete the fixture from the floorsets_fixtures table
 Written by: Andrew Miller
 */
 
-CREATE TRIGGER Delete_Fixture
+CREATE TRIGGER trg_DeleteForeignKeysForFixtureOnDelete
 ON dbo.FIXTURES
 AFTER DELETE
 AS

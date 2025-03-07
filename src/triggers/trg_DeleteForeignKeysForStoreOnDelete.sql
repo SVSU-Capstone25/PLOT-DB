@@ -1,5 +1,5 @@
 /*
-Filenname: delete_store.sql
+Filenname: trg_DeleteForeignKeysForStoreOnDelete.sql
 Part of Project: PLOT/PLOT-DB/src/triggers
 
 File Purpose:
@@ -10,7 +10,7 @@ and fixtures from that store are deleted from fixtures table
 Written by: Andrew Miller
 */
 
-CREATE TRIGGER Delete_Store
+CREATE TRIGGER trg_DeleteForeignKeysForStoreOnDelete
 ON dbo.STORE
 AFTER DELETE
 AS
