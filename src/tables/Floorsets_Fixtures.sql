@@ -13,13 +13,37 @@ Written by: Andrew Miller
 */
 
 -- Create floorsets_fixtures table
-CREATE TABLE Floorsets_Fixtures (
-	FLOORSET_TUID INT,							/* TUID of Floorset */
-	FIXTURE_TUID INT,							/* TUID of Fixture */
-	X_POS DECIMAL(9,6) NOT NULL,				/* X-Coordinate */
-	Y_POS DECIMAL(9,6) NOT NULL,				/* Y-Coordinate */
-	PRIMARY KEY(FLOORSET_TUID, FIXTURE_TUID),
-	FOREIGN KEY(FLOORSET_TUID) REFERENCES Floorsets(TUID),
-	FOREIGN KEY(FIXTURE_TUID) REFERENCES Fixtures(TUID)
-);
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Floorsets_Fixtures](
+	[TUID] [int] IDENTITY(1,1) NOT NULL,
+	[FLOORSET_TUID] [int] NOT NULL,
+	[FIXTURE_TUID] [int] NOT NULL,
+	[X_POS] [decimal](9, 6) NOT NULL,
+	[Y_POS] [decimal](9, 6) NOT NULL,
+	[HANGER_STACK] [int] NOT NULL,
+	[TOT_LF] [decimal](10, 2) NOT NULL,
+	[ALLOCATED_LF] [decimal](10, 2) NULL,
+	[CATEGORY] [varchar](100) NULL,
+	[NOTE] [varchar](1000) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[TUID] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Floorsets_Fixtures] ADD  DEFAULT ('') FOR [NOTE]
+GO
+
+ALTER TABLE [dbo].[Floorsets_Fixtures]  WITH CHECK ADD FOREIGN KEY([FIXTURE_TUID])
+REFERENCES [dbo].[Fixtures] ([TUID])
+GO
+
+ALTER TABLE [dbo].[Floorsets_Fixtures]  WITH CHECK ADD FOREIGN KEY([FLOORSET_TUID])
+REFERENCES [dbo].[Floorsets] ([TUID])
 GO
