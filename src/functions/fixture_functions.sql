@@ -8,19 +8,19 @@ This file contains functions for retrieving and managing fixtures in the system.
 Written by: Krzysztof Hejno
 */
 
--- Function: Get Fixture Details by Name
-CREATE FUNCTION GetFixturesByName(@FixtureName NVARCHAR(100))
+-- Function: Get All Fixtures by fixture Name
+CREATE FUNCTION [dbo].[GetFixturesByName](@FixtureName NVARCHAR(100))
 RETURNS TABLE
 AS
 RETURN (
-    SELECT TUID, NAME, WIDTH, HEIGHT, LF_CAP, HANGER_STACK_INT, TOT_LF_DECIMAL, ICON
+    SELECT TUID, NAME, WIDTH, HEIGHT, LF_CAP, HANGER_STACK, TOT_LF, ICON
     FROM fixtures
     WHERE NAME = @FixtureName
 );
 GO
 
 -- Function: Count Fixtures by Store Name
-CREATE FUNCTION CountFixturesByStore (@StoreID INT)
+CREATE FUNCTION [dbo].[CountFixturesByStore](@StoreID INT)
 RETURNS INT
 AS
 BEGIN
@@ -31,8 +31,9 @@ BEGIN
 END;
 GO
 
+
 -- Function: Get All Fixtures in a Store by Store ID
-CREATE FUNCTION GetFixturesByStore (@StoreTUID INT)
+CREATE FUNCTION [dbo].[GetFixturesByStore](@StoreTUID INT)
 RETURNS TABLE
 AS
 RETURN (
@@ -44,7 +45,7 @@ RETURN (
 GO
 
 -- Function: Get Fixture Positions in a floorset by ID
-CREATE FUNCTION GetFixturePositionsByFloorset (@floorsetID INT)
+CREATE FUNCTION [dbo].[GetFixturePositionsByFloorset](@floorsetID INT)
 RETURNS TABLE
 AS
 RETURN (
@@ -57,7 +58,7 @@ RETURN (
 GO
 
 -- Function: Get floorsets Using a Specific Fixture by ID
-CREATE FUNCTION GetFloorsetsUsingFixture (@FixtureID INT)
+CREATE FUNCTION [dbo].[GetFloorsetsUsingFixture](@FixtureID INT)
 RETURNS TABLE
 AS
 RETURN (
@@ -69,12 +70,13 @@ RETURN (
 );
 GO
 
+
 -- Function: Get Fixtures within Dimension Range
-CREATE FUNCTION GetFixturesByDimensions(@MinWidth INT, @MaxWidth INT, @MinHeight INT, @MaxHeight INT)
+CREATE FUNCTION [dbo].[GetFixturesByDimensions](@MinWidth INT, @MaxWidth INT, @MinHeight INT, @MaxHeight INT)
 RETURNS TABLE
 AS
 RETURN (
-    SELECT TUID, NAME, WIDTH, HEIGHT, LF_CAP, HANGER_STACK_INT, TOT_LF_DECIMAL, ICON
+    SELECT TUID, NAME, WIDTH, HEIGHT, LF_CAP, HANGER_STACK, TOT_LF, ICON
     FROM fixtures
     WHERE WIDTH BETWEEN @MinWidth AND @MaxWidth
       AND HEIGHT BETWEEN @MinHeight AND @MaxHeight

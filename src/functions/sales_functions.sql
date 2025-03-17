@@ -9,26 +9,26 @@ Written by: Krzysztof Hejno
 */
 
 -- Function: Get Sales Data by floorset
-CREATE FUNCTION GetSalesDataByFloorset(@floorsetTUID INT)
+CREATE FUNCTION [dbo].[GetSalesDataByFloorset](@floorsetTUID INT)
 RETURNS TABLE
 AS
 RETURN (
     SELECT sd.FILENAME, sd.FILEDATA, sd.CAPTURE_DATE, sd.DATE_UPLOADED
-    FROM sales_data sd
+    FROM Sales sd
     WHERE sd.FLOORSET_TUID = @floorsetTUID
 );
 GO
 
+
 -- Function: Get Latest Sales Data for a Store
-CREATE FUNCTION GetLatestSalesDataByStore(@StoreTUID INT)
+CREATE FUNCTION [dbo].[GetLatestSalesDataByStore](@StoreTUID INT)
 RETURNS TABLE
 AS
 RETURN (
-    SELECT sd.FILENAME, sd.FILEDATA, sd.CAPTURE_DATE, sd.DATE_UPLOADED
-    FROM sales_data sd
-    INNER JOIN floorset f ON sd.FLOORSET_TUID = f.TUID
+    SELECT TOP (1) sd.FILENAME, sd.FILEDATA, sd.CAPTURE_DATE, sd.DATE_UPLOADED
+    FROM Sales sd
+    INNER JOIN floorsets f ON sd.FLOORSET_TUID = f.TUID
     WHERE f.STORE_TUID = @StoreTUID
     ORDER BY sd.DATE_UPLOADED DESC
-    LIMIT 1
 );
 GO

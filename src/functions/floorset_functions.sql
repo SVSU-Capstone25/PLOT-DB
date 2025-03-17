@@ -9,7 +9,7 @@ Written by: Krzysztof Hejno
 */
 
 -- Function: Get Fixture Details by floorset
-ALTER FUNCTION [dbo].[GetFixturesByFloorset](@floorsetTUID INT)
+CREATE FUNCTION [dbo].[GetFixturesByFloorset](@floorsetTUID INT)
 RETURNS TABLE
 AS
 RETURN (
@@ -18,29 +18,29 @@ RETURN (
     INNER JOIN fixtures f ON ff.FIXTURE_TUID = f.TUID
     WHERE ff.FLOORSET_TUID = @floorsetTUID
 );
+GO
 
 -- Function: Count Fixtures in a floorset
-CREATE FUNCTION CountFixturesInFloorset(@floorsetTUID INT)
+CREATE FUNCTION [dbo].[CountFixturesInFloorset](@floorsetTUID INT)
 RETURNS INT
 AS
 BEGIN
     RETURN (SELECT COUNT(*)
-            FROM floorset_fixtures
+            FROM floorsets_fixtures
             WHERE FLOORSET_TUID = @floorsetTUID);
 END;
 GO
 
+
 -- Function: Get floorset Details by Store
-CREATE FUNCTION GetFloorsetsByStore(@StoreTUID INT)
+CREATE FUNCTION [dbo].[GetFloorsetsByStore](@StoreTUID INT)
 RETURNS TABLE
 AS
-BEGIN
 RETURN (
     SELECT f.TUID, f.NAME, f.DATE_CREATED, f.DATE_MODIFIED
-    FROM floorset f
+    FROM floorsets f
     WHERE f.STORE_TUID = @StoreTUID
 );
-END;
 GO
 
 
