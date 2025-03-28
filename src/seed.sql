@@ -5,7 +5,7 @@ VALUES
 ('Manager'),
 ('Employee');
 
-INSERT INTO Store 
+INSERT INTO Stores 
 ([NAME], [ADDRESS], [CITY], [STATE], [ZIP], [WIDTH], [HEIGHT], [BLUEPRINT_IMAGE])
 VALUES
 ('Pato''s Closet Saginaw', '5206 Bay Rd', 'Saginaw','MI', '48604', 85, 65, 0x01020304),

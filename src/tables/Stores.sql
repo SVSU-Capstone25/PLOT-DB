@@ -1,5 +1,5 @@
 /*
-Filename: Store.sql
+Filename: Stores.sql
 Part of Project: PLOT/PLOT-DB/src/tables
 
 File Purpose:
@@ -14,7 +14,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [dbo].[Store](
+CREATE TABLE [dbo].[Stores](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[NAME] [varchar](100) NOT NULL,
 	[ADDRESS] [varchar](100) NOT NULL,
