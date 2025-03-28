@@ -40,7 +40,7 @@ BEGIN
     IF @TUID IS NULL OR @TUID = 0
     BEGIN
         --insert the new store
-        INSERT INTO Store(NAME, ADDRESS, CITY, STATE, ZIP, WIDTH, HEIGHT, BLUEPRINT_IMAGE)
+        INSERT INTO Stores(NAME, ADDRESS, CITY, STATE, ZIP, WIDTH, HEIGHT, BLUEPRINT_IMAGE)
         VALUES 
 		(@NAME, @ADDRESS, @CITY, @STATE, @ZIP, @WIDTH, @HEIGHT, @BLUEPRINT_IMAGE);
 
@@ -78,7 +78,7 @@ BEGIN
 	ELSE 
     BEGIN
         --UPDATE the store information
-        UPDATE Store
+        UPDATE Stores
         SET NAME = @NAME,
             ADDRESS = @ADDRESS,
             CITY = @CITY,
