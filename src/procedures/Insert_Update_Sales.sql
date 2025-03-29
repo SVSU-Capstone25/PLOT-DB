@@ -1,3 +1,13 @@
+USE [sqlpreview]
+GO
+
+/****** Object:  StoredProcedure [dbo].[Insert_Update_Sales]    Script Date: 3/29/2025 1:32:47 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER OFF
+GO
+
 -- =============================================
 -- Author:      <Krzysztof,Hejno>
 -- Create Date: <2/14/2025>
@@ -21,8 +31,8 @@ BEGIN
 	BEGIN TRY
 	IF @ID IS NULL
 		BEGIN
-			INSERT INTO Sales(TUID,FILENAME,FILEDATA,CAPTURE_DATE,DATE_UPLOADED,FLOORSET_TUID) 
-			VALUES (@ID,@FILENAME,@FILEDATA,@CAPTURE_DATE,@DATE_UPLOADED,@FLOORSET_TUID);
+			INSERT INTO Sales(FILENAME,FILEDATA,CAPTURE_DATE,DATE_UPLOADED,FLOORSET_TUID) 
+			VALUES (@FILENAME,@FILEDATA,@CAPTURE_DATE,@DATE_UPLOADED,@FLOORSET_TUID);
 
 			SELECT 'OK 200' AS Response;
 		END
@@ -45,3 +55,5 @@ BEGIN
 
 END
 GO
+
+
