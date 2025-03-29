@@ -57,7 +57,7 @@ BEGIN
         -- User does not exist
         BEGIN
             -- Failed response
-            SELECT 'NOT FOUND 500' As Response;
+            SELECT 'NOT FOUND 404' As Response;
         END;
 
     END TRY
