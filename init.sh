@@ -63,5 +63,8 @@ run_sql_scripts "/usr/config/src/views"
 run_sql_scripts "/usr/config/src/procedures"
 run_sql_scripts "/usr/config/src/triggers"
 
+echo "\nSeeding database..."
+/opt/mssql-tools18/bin/sqlcmd -S localhost,1433 -U sa -P "$MSSQL_SA_PASSWORD" -C -d "$DB_NAME" -i "/usr/config/src/seed.sql"
+
 # Final message
 echo -e "\nDatabase initialization complete."
