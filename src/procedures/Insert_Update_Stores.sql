@@ -4,7 +4,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-
 /*
 Filename: Insert_Update_Stores.sql
 Part of Project: PLOT/PLOT-DB/src/procedures
@@ -22,7 +21,7 @@ Resolved by try/catch of filtering.
 
 Updated 3/30/2025
 By: Zach Ventimiglia
-Reasoning: Needing 2 separate updates when calling the procedure due to UI constraints.
+Reasoning: Needing 2 separate updates when calling the procedure due to UI constraints
 Resolved by marking variables as null and writing if statements in the update
 conditions. 1 updates just the width and height and 1 updates the public info. 
 */
@@ -92,13 +91,13 @@ BEGIN
                 -- If the error is a duplicate key violation (error number 2627)
                 IF ERROR_NUMBER() = 2627
                 BEGIN
-                    PRINT 'Duplicate key error ignored. Continuing execution...';
+                    SELECT 'ERROR 500' AS Response, ERROR_MESSAGE() AS ErrorDetails;
                 END
             END CATCH;
         END;
 
         --Return the newly inserted store TUID
-        SELECT @NewStoreTUID AS NewTUID;
+        SELECT 'OK 200' AS Response;
     END
     
     --ELSE: the store is updated instead 
@@ -147,14 +146,14 @@ BEGIN
 					-- If the error is a duplicate key violation (error number 2627)
 					IF ERROR_NUMBER() = 2627
 					BEGIN
-						PRINT 'Duplicate key error ignored. Continuing execution...';
+						SELECT 'ERROR 500' AS Response, ERROR_MESSAGE() AS ErrorDetails;
 					END
 				END CATCH;
 			END;
 		END
 
         --Return the updated TUID
-        SELECT @TUID AS UpdatedTUID;
+        SELECT 'OK 200' AS Response;
     END
 END;
 GO
