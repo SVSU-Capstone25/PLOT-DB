@@ -151,7 +151,6 @@ GO
 ALTER TABLE [dbo].[Access] CHECK CONSTRAINT [FK_Access_User]
 GO
 
-
 /*
 Filename: Fixtures.sql
 Part of Project: PLOT/PLOT-DB/src/tables
@@ -230,7 +229,6 @@ ALTER TABLE [dbo].[Floorsets]  WITH CHECK ADD FOREIGN KEY([STORE_TUID])
 REFERENCES [dbo].[Stores] ([TUID])
 GO
 
-
 /*
 Filenname: floorsets_fixtures.sql
 Part of Project: PLOT/PLOT-DB/src/tables
@@ -281,7 +279,6 @@ ALTER TABLE [dbo].[Floorsets_Fixtures]  WITH CHECK ADD FOREIGN KEY([FLOORSET_TUI
 REFERENCES [dbo].[Floorsets] ([TUID])
 GO
 
-
 /*
  Filename: Sales.sql
  Part of Project: PLOT/PLOT-DB/src/tables
@@ -320,6 +317,3 @@ GO
 ALTER TABLE [dbo].[Sales]  WITH CHECK ADD FOREIGN KEY([FLOORSET_TUID])
 REFERENCES [dbo].[Floorsets] ([TUID])
 GO
-
-
-
