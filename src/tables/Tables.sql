@@ -1,33 +1,5 @@
 /*
-Filenname: roles.sql
-Part of Project: PLOT/PLOT-DB/src/tables
-
-File Purpose:
-This file contains the commands to create the Roles table for the database.
-
-Written by: Andrew Miller
-*/
-
---Create Roles Table--
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-CREATE TABLE [dbo].[Roles](
-	[TUID] [int] IDENTITY(1,1) NOT NULL,
-	[NAME] [varchar](100) NOT NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[TUID] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-
-/*
-Filename: Stores.sql
+Filename: Store.sql
 Part of Project: PLOT/PLOT-DB/src/tables
 
 File Purpose:
@@ -61,6 +33,34 @@ UNIQUE NONCLUSTERED
 	[TUID] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+/*
+Filenname: roles.sql
+Part of Project: PLOT/PLOT-DB/src/tables
+
+File Purpose:
+This file contains the commands to create the Roles table for the database.
+
+Written by: Andrew Miller
+*/
+
+--Create Roles Table--
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Roles](
+	[TUID] [int] IDENTITY(1,1) NOT NULL,
+	[NAME] [varchar](100) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[TUID] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
 GO
 
 /*
@@ -135,6 +135,20 @@ PRIMARY KEY CLUSTERED
 	[STORE_TUID] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Access]  WITH CHECK ADD  CONSTRAINT [FK_Access_Store] FOREIGN KEY([STORE_TUID])
+REFERENCES [dbo].[Stores] ([TUID])
+GO
+
+ALTER TABLE [dbo].[Access] CHECK CONSTRAINT [FK_Access_Store]
+GO
+
+ALTER TABLE [dbo].[Access]  WITH CHECK ADD  CONSTRAINT [FK_Access_User] FOREIGN KEY([USER_TUID])
+REFERENCES [dbo].[Users] ([TUID])
+GO
+
+ALTER TABLE [dbo].[Access] CHECK CONSTRAINT [FK_Access_User]
 GO
 
 /*
