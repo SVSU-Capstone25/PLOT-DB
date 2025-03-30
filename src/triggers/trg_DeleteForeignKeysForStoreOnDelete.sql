@@ -11,7 +11,7 @@ Written by: Andrew Miller
 */
 
 CREATE TRIGGER trg_DeleteForeignKeysForStoreOnDelete
-ON dbo.STORE
+ON dbo.STORES
 AFTER DELETE
 AS
 BEGIN
