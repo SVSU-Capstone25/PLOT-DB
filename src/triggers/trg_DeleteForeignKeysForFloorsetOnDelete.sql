@@ -20,6 +20,6 @@ BEGIN
 	
 	/* Delete sales data records in database associated with floorset */
 	DELETE FROM SALES
-	WHERE FLOORSET_TUID IN (SELECT TUID FROM SALES);
+	WHERE FLOORSET_TUID IN (SELECT TUID FROM deleted);
 END;
 GO
