@@ -46,7 +46,7 @@ BEGIN
 	-- If either store or user does NOT exist
 	ELSE
 	BEGIN
-	    SELECT 'NOT FOUND 500' As Response;
+	    SELECT 'NOT FOUND 404' As Response;
 	END
 END;
 GO
