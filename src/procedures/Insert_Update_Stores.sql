@@ -4,6 +4,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+
 /*
 Filename: Insert_Update_Stores.sql
 Part of Project: PLOT/PLOT-DB/src/procedures
@@ -140,7 +141,12 @@ BEGIN
 				BEGIN TRY
 					INSERT INTO Access (USER_TUID, STORE_TUID)
 					SELECT VALUE, @TUID
-					FROM STRING_SPLIT(@UserTUIDs, ',');
+					FROM STRING_SPLIT(@UserTUIDs, ',') AS SplitUsers
+					WHERE NOT EXISTS (
+						SELECT 1 FROM Access 
+						WHERE Access.USER_TUID = SplitUsers.VALUE 
+						AND Access.STORE_TUID = @TUID
+					);
 				END TRY
 				BEGIN CATCH
 					-- If the error is a duplicate key violation (error number 2627)
