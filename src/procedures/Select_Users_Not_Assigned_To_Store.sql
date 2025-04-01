@@ -12,7 +12,7 @@ GO
 -- And returns a table of all those users.
 -- =============================================
 
-CREATE OR ALTER PROCEDURE [dbo].[Select_Users_NoStore_Access]
+CREATE OR ALTER PROCEDURE [dbo].[Select_Users_Not_Assigned_To_Store]
 (
 	@StoreID INT = NULL
 )
@@ -35,7 +35,7 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		SELECT 'Error 500: No StoreID' As Response
+		SELECT 'Error 500: Store not found' As Response
 	END
 END
 GO
