@@ -1,4 +1,3 @@
-/****** Object:  StoredProcedure [dbo].[Insert_Update_User]    Script Date: 3/26/2025 4:06:44 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -16,7 +15,7 @@ GO
 -- Ran transactions when inserting into 2 seperate tables due to failures.
 -- Ensures that either both operations succeed or none does.
 -- =============================================
-CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_User]
+CREATE   PROCEDURE [dbo].[Insert_Update_User]
 (
     @ID INT = NULL,
     @FIRSTNAME VARCHAR(747) = NULL,
@@ -68,14 +67,15 @@ BEGIN
         END
         ELSE
         BEGIN
+			-- This only update the fields that are provided (not NULL)
             UPDATE [dbo].[Users]
             SET 
-				FIRST_NAME = @FIRSTNAME, 
-				LAST_NAME = @LASTNAME, 
-				EMAIL = @EMAIL, 
-                PASSWORD = @PASSWORD, 
-				ROLE_TUID = @ROLETUID, 
-				ACTIVE = @ACTIVE
+				FIRST_NAME = COALESCE(@FIRSTNAME, FIRST_NAME), 
+                LAST_NAME = COALESCE(@LASTNAME, LAST_NAME), 
+                EMAIL = COALESCE(@EMAIL, EMAIL), 
+                PASSWORD = COALESCE(@PASSWORD, PASSWORD), 
+                ROLE_TUID = COALESCE(@ROLETUID, ROLE_TUID), 
+                ACTIVE = COALESCE(@ACTIVE, ACTIVE)
             WHERE TUID = @ID;
 
             SET @USERTUID = @ID;
