@@ -4,13 +4,13 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
--- =============================================
+-- ===============================================
 -- Author: Zach Ventimiglia      
 -- Create Date: 4/1/2025
 -- Description: 
--- Deletes the store data as well as all the childen
--- data tables associated with that store.
--- =============================================
+-- Deletes the store data as well as all the 
+-- childen data tables associated with that store.
+-- ===============================================
 
 CREATE   PROCEDURE [dbo].[Delete_Store]
 (
@@ -20,11 +20,14 @@ AS
 BEGIN
     BEGIN TRY
         -- Check if the Store exists
-        IF EXISTS (SELECT 1 FROM Stores WHERE TUID = @StoreID)
+        IF EXISTS (
+            SELECT 1 
+                FROM Stores
+                WHERE TUID = @StoreID
+            )
 
         -- Store exists - remove store
         BEGIN
-            
 			-- Delete floorsets associated to the store
 			DELETE FROM Floorsets
 			WHERE STORE_TUID = @StoreID;
@@ -33,7 +36,7 @@ BEGIN
 			DELETE FROM Fixtures
 			WHERE STORE_TUID = @StoreID;
 
-            -- Delete from the access table where user exists
+            -- Delete from the access table where store exists
             DELETE FROM Access
             WHERE STORE_TUID = @StoreID;
 			
@@ -46,7 +49,7 @@ BEGIN
         END
 
         ELSE
-        -- User does not exist
+        -- Store does not exist
         BEGIN
             -- Failed response
             SELECT 'NOT FOUND 404' As Response;
