@@ -317,3 +317,42 @@ GO
 ALTER TABLE [dbo].[Sales]  WITH CHECK ADD FOREIGN KEY([FLOORSET_TUID])
 REFERENCES [dbo].[Floorsets] ([TUID])
 GO
+
+/*
+Filename: Sales_Allocation.sql
+Part of Project: PLOT/PLOT-DB/src/tables
+
+File Purpose:
+This file holds all the data allocations pulled from the excel file for 
+backups and extractions.
+
+Written by: Zach Ventimiglia
+*/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Sales_Allocation](
+	[TUID] [int] IDENTITY(1,1) NOT NULL,
+	[CATEGORY_NAME] [varchar](100) NULL,
+	[TOTAL_SALES] [int] NULL,
+	[SALES_TUID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[TUID] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Sales_Allocation]  WITH CHECK ADD FOREIGN KEY([SALES_TUID])
+REFERENCES [dbo].[Sales] ([TUID])
+GO
+
+ALTER TABLE [dbo].[Sales_Allocation]  WITH CHECK ADD  CONSTRAINT [FK_SalesAllocation_Sales] FOREIGN KEY([SALES_TUID])
+REFERENCES [dbo].[Sales] ([TUID])
+GO
+
+ALTER TABLE [dbo].[Sales_Allocation] CHECK CONSTRAINT [FK_SalesAllocation_Sales]
+GO

@@ -74,3 +74,12 @@ VALUES
 ('SalesJan24.xlsx', CONVERT(VARBINARY(MAX), '\Excel\SalesData\DummyFile.txt'), '1/1/2024', '1/5/2025', 3),
 ('SalesFeb24.xlxs', CONVERT(VARBINARY(MAX), '\Excel\SalesData\DummyFile.txt'), '2/1/2024', '1/26/2025', 4),
 ('SalesMar24.xlsx', CONVERT(VARBINARY(MAX), '\Excel\SalesData\DummyFile.txt'), '3/1/2024', '1/26/2025', 5);
+
+INSERT INTO Sales_Allocation ([CATEGORY_NAME], [TOTAL_SALES], [SALES_TUID])
+VALUES
+('Accessories Belts', 155, 3),
+('Accessories Hats', 207, 3),
+('Mens Athleticwear Jackets', 370, 3),
+('Mens Athleticwear Pants', 819, 3),
+('Womens Bottoms Denim', 3030, 3),
+('Womens Bottoms Khaki', 515, 3);
