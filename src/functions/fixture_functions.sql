@@ -13,15 +13,17 @@ Update Purpose: Pluralized store to stores.
 Abbreviations in some functions were counterintuitive.
 Changed to just using table names across function files,
 except floorset-fixtures as ff
+
+Changed references to "height" to "length"
 */
 
 -- Function: Get All Fixtures by fixture Name
--- Returned fields: TUID, NAME, WIDTH, HEIGHT, LF_CAP, ICON, STORE_TUID
+-- Returned fields: TUID, NAME, WIDTH, LENGTH, LF_CAP, ICON, STORE_TUID
 CREATE FUNCTION [dbo].[GetFixturesByName](@FixtureName NVARCHAR(100))
 RETURNS TABLE
 AS
 RETURN (
-    SELECT TUID, NAME, WIDTH, HEIGHT, LF_CAP, ICON, STORE_TUID
+    SELECT TUID, NAME, WIDTH, LENGTH, LF_CAP, ICON, STORE_TUID
     FROM fixtures
     WHERE NAME = @FixtureName
 );
@@ -41,13 +43,13 @@ END;
 GO
 
 -- Function: Get All Fixtures in a Store by Store ID
--- Returned fields: TUID, Name, Width, Height, LF_Cap, Icon
+-- Returned fields: TUID, Name, Width, Length, LF_Cap, Icon
 CREATE FUNCTION [dbo].[GetFixturesByStore](@StoreTUID INT)
 RETURNS TABLE
 AS
 RETURN (
     SELECT fixtures.TUID, fixtures.NAME, fixtures.WIDTH,
-            fixtures.HEIGHT, fixtures.LF_CAP, fixtures.ICON
+            fixtures.LENGTH, fixtures.LF_CAP, fixtures.ICON
     FROM fixtures
     INNER JOIN stores ON fixtures.STORE_TUID = stores.TUID
     WHERE stores.TUID = @StoreTUID
@@ -89,14 +91,14 @@ RETURN (
 GO
 
 -- Function: Get Fixtures within Dimension Range
--- Returned fields: TUID, Name, Width, Height, LF_Cap, Icon, Store_TUID
-CREATE FUNCTION [dbo].[GetFixturesByDimensions](@MinWidth INT, @MaxWidth INT, @MinHeight INT, @MaxHeight INT)
+-- Returned fields: TUID, Name, Width, Length, LF_Cap, Icon, Store_TUID
+CREATE FUNCTION [dbo].[GetFixturesByDimensions](@MinWidth INT, @MaxWidth INT, @MinLength INT, @MaxLength INT)
 RETURNS TABLE
 AS
 RETURN (
-    SELECT TUID, NAME, WIDTH, HEIGHT, LF_CAP, ICON, STORE_TUID
+    SELECT TUID, NAME, WIDTH, LENGTH, LF_CAP, ICON, STORE_TUID
     FROM fixtures
     WHERE WIDTH BETWEEN @MinWidth AND @MaxWidth
-      AND HEIGHT BETWEEN @MinHeight AND @MaxHeight
+      AND LENGTH BETWEEN @MinLength AND @MaxLength
 );
 GO

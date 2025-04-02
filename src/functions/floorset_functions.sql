@@ -14,12 +14,14 @@ in fixture details.
 Abbreviations in some functions were counterintuitive.
 Changed to just using table names across function files,
 except floorset-fixtures as ff.
+
+Changed references to "height" to "length"
 */
 
 -- Function: Get Fixture Details by floorset
 -- Returns Fields:
 --      FLOORSET_TUID, NAME,
---      WIDTH, HEIGHT,
+--      WIDTH, LENGTH,
 --      X_POS, Y_POS,
 --      ALLOCATED_LF,
 --      SUPERCATEGORY,
@@ -31,7 +33,7 @@ RETURNS TABLE
 AS
 RETURN (
     SELECT ff.FLOORSET_TUID, fixtures.NAME,
-    fixtures.WIDTH, fixtures.HEIGHT,
+    fixtures.WIDTH, fixtures.LENGTH,
     ff.X_POS, ff.Y_POS,
     ff.ALLOCATED_LF,
     supercategories.NAME SUPERCATEGORY,
@@ -73,12 +75,12 @@ RETURN (
 GO
 
 -- Function: Get store information for a store based on its name
--- Returns fields: TUID, Width, Height, Address, Blueprint_Image
+-- Returns fields: TUID, Width, Length, Address, Blueprint_Image
 CREATE FUNCTION [dbo].[GetStoreInfoByName](@StoreName varchar(100))
 RETURNS TABLE
 AS
 RETURN (
-    SELECT stores.TUID,stores.WIDTH,stores.HEIGHT,
+    SELECT stores.TUID,stores.WIDTH,stores.Length,
         stores.ADDRESS,stores.BLUEPRINT_IMAGE
     FROM stores
     WHERE stores.NAME = @StoreName

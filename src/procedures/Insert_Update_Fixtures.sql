@@ -11,12 +11,15 @@ GO
 -- This Procedure inserts or updates a row to the Fixtures table
 -- by using the TUID and if its null, it inserts a row. Else it will update the row manipulated.
 -- =============================================
+-- Update: 4/2/2025
+-- By: Andrew Miller
+-- Description: Changed "height" to "length"
 CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Fixtures]
 (
 	@ID INT = NULL,
 	@NAME VARCHAR(100) = NULL,
 	@WIDTH INT = NULL,
-	@HEIGHT INT = NULL,
+	@LENGTH INT = NULL,
 	@LF_CAP DECIMAL(10,2) = NULL,
 	@ICON VARBINARY(MAX) = NULL,
 	@STORE_ID INT = NULL
@@ -30,7 +33,7 @@ BEGIN TRY
 			(
 				NAME,
 				WIDTH,
-				HEIGHT,
+				LENGTH,
 				LF_CAP,
 				ICON,
 				STORE_TUID
@@ -39,7 +42,7 @@ BEGIN TRY
 			(
 				@NAME,
 				@WIDTH,
-				@HEIGHT,
+				@LENGTH,
 				@LF_CAP,
 				@ICON,
 				@STORE_ID
@@ -52,7 +55,7 @@ BEGIN TRY
 			SET
 				NAME = @NAME,
 				WIDTH = @WIDTH,
-				HEIGHT = @HEIGHT,
+				LENGTH = @LENGTH,
 				LF_CAP = @LF_CAP,
 				ICON = @ICON,
 				STORE_TUID = @STORE_ID

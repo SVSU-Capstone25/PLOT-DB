@@ -24,7 +24,11 @@ Updated 3/30/2025
 By: Zach Ventimiglia
 Reasoning: Needing 2 separate updates when calling the procedure due to UI constraints
 Resolved by marking variables as null and writing if statements in the update
-conditions. 1 updates just the width and height and 1 updates the public info. 
+conditions. 1 updates just the width and length and 1 updates the public info. 
+
+Updated 4/2/2025
+By: Andrew Miller
+Reasoning: Changed "Height" to "Length" for stores
 */
 
 CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Stores]
@@ -36,7 +40,7 @@ CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Stores]
     @STATE VARCHAR(25) = NULL,
     @ZIP VARCHAR(10) = NULL,
     @WIDTH INT = NULL,
-    @HEIGHT INT = NULL,
+    @LENGTH INT = NULL,
     @BLUEPRINT_IMAGE VARBINARY(MAX) = NULL,
     @UserTUIDs VARCHAR(MAX) = NULL --Comma seperated list of user TUIDs
 AS
@@ -56,7 +60,7 @@ BEGIN
 			STATE, 
 			ZIP, 
 			WIDTH, 
-			HEIGHT, 
+			LENGTH, 
 			BLUEPRINT_IMAGE
 		)
         VALUES 
@@ -67,7 +71,7 @@ BEGIN
 			@STATE, 
 			@ZIP, 
 			@WIDTH, 
-			@HEIGHT, 
+			@LENGTH, 
 			@BLUEPRINT_IMAGE
 		);
 
@@ -105,16 +109,16 @@ BEGIN
 	ELSE 
     BEGIN
 		-- Update Store size
-		IF @WIDTH IS NOT NULL OR @HEIGHT IS NOT NULL
+		IF @WIDTH IS NOT NULL OR @LENGTH IS NOT NULL
 		BEGIN
 			UPDATE Stores
 			SET WIDTH = @WIDTH,
-				HEIGHT = @HEIGHT
+				LENGTH = @LENGTH
 			WHERE TUID = @TUID
 		END
 
 		-- Update for Public info
-		IF @WIDTH IS NULL OR @HEIGHT IS NULL
+		IF @WIDTH IS NULL OR @LENGTH IS NULL
 		BEGIN
 			UPDATE Stores
 			SET NAME = @NAME,

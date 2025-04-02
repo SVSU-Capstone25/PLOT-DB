@@ -1,3 +1,12 @@
+/* Update: 4/2/2025
+   Purpose: Adjusting the seed to include Supercategories table,
+   replacing Category in Sales_allocation and floorsets_fixtures
+   with Supercategory_tuid and Subcategory.
+
+   Changed references to "HEIGHT" in Stores and Fixtures to
+   "LENGTH"
+*/
+
 INSERT INTO Supercategories
 ([NAME],[COLOR])
 VALUES
@@ -13,14 +22,14 @@ VALUES
 ('Employee');
 
 INSERT INTO Stores 
-([NAME], [ADDRESS], [CITY], [STATE], [ZIP], [WIDTH], [HEIGHT], [BLUEPRINT_IMAGE])
+([NAME], [ADDRESS], [CITY], [STATE], [ZIP], [WIDTH], [LENGTH], [BLUEPRINT_IMAGE])
 VALUES
 ('Pato''s Closet Saginaw', '5206 Bay Rd', 'Saginaw','MI', '48604', 85, 65, 0x01020304),
 ('Pato''s Closet Flint', '3192 S Linden Rd', 'Flint', 'MI', '48507-3004', 75, 75, 0x01020304),
 ('Pato''s Closet Dallas', '8430 Abrams Rd', 'Dallas', 'TX', '75243', 95, 55, 0x01020304);
 
 INSERT INTO Fixtures 
-([NAME], [WIDTH], [HEIGHT], [LF_CAP], [ICON], [STORE_TUID])
+([NAME], [WIDTH], [LENGTH], [LF_CAP], [ICON], [STORE_TUID])
 VALUES
 ('Long Table', 2, 5, 25, 0x01020304, 1),
 ('Double Rail Rack', 5, 5, 20, 0x01020304, 1),

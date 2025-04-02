@@ -1,3 +1,14 @@
+/*
+Update: 4/2/2025
+Reason: Needed to separate categories references in sales_allocation
+and floorsets_fixtures table into supercategories and subcategories.
+Created Supercategories table and reference the Men's, Women's,
+and Accessories supercategories via TUID in those tables.
+
+Changes references to height to length in stores and fixtures tables
+
+*/
+
 /* Supercategories table
 Part of Project: PLOT/PLOT-DB/src/tables
 Table Purpose: 
@@ -73,7 +84,7 @@ CREATE TABLE [dbo].[Stores](
 	[STATE] [varchar](25) NOT NULL,
 	[ZIP] [varchar](10) NOT NULL,
 	[WIDTH] [int] NULL,
-	[HEIGHT] [int] NULL,
+	[LENGTH] [int] NULL,
 	[BLUEPRINT_IMAGE] [varbinary](max) NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -194,7 +205,7 @@ CREATE TABLE [dbo].[Fixtures](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[NAME] [varchar](100) NOT NULL,
 	[WIDTH] [int] NOT NULL,
-	[HEIGHT] [int] NOT NULL,
+	[LENGTH] [int] NOT NULL,
 	[LF_CAP] [decimal](10, 2) NOT NULL,
 	[ICON] [varbinary](max) NOT NULL,
 	[STORE_TUID] [int] NOT NULL,
