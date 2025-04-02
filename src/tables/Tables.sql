@@ -1,3 +1,26 @@
+/* Supercategories table
+Part of Project: PLOT/PLOT-DB/src/tables
+Table Purpose: 
+This table refers to the supercategories (men's/women's/accessories),
+and their colors.
+Written by: Andrew Miller
+*/
+SET ANSI_NULLS ON
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Supercategories](
+	[TUID] [int] IDENTITY(1,1) NOT NULL,
+	[NAME] [varchar](100) NULL,
+	[COLOR] [varchar](100) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[TUID] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
 /*
 Filenname: roles.sql
 Part of Project: PLOT/PLOT-DB/src/tables
@@ -240,6 +263,9 @@ table for the database.
 Association table for the floorsets and fixture tables.
 Provides position of a given fixture on a given floorset.
 
+Update Purpose: Replaced Category column with
+Supercategory_TUID and Subcategory columns
+
 Written by: Andrew Miller
 */
 
@@ -259,7 +285,8 @@ CREATE TABLE [dbo].[Floorsets_Fixtures](
 	[HANGER_STACK] [int] NOT NULL,
 	[TOT_LF] [decimal](10, 2) NOT NULL,
 	[ALLOCATED_LF] [decimal](10, 2) NULL,
-	[CATEGORY] [varchar](100) NULL,
+	[SUBCATEGORY] [varchar](100) NULL,
+	[SUPERCATEGORY_TUID] [int] NOT NULL,
 	[NOTE] [varchar](1000) NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -277,6 +304,13 @@ GO
 
 ALTER TABLE [dbo].[Floorsets_Fixtures]  WITH CHECK ADD FOREIGN KEY([FLOORSET_TUID])
 REFERENCES [dbo].[Floorsets] ([TUID])
+GO
+
+ALTER TABLE [dbo].[Floorsets_Fixtures] WITH CHECK ADD CONSTRAINT [FK_Floorsets_Fixtures_Supercategories] FOREIGN KEY([SUPERCATEGORY_TUID])
+REFERENCES [dbo].[Supercategories]([TUID])
+GO
+
+ALTER TABLE [dbo].[Floorsets_Fixtures] CHECK CONSTRAINT [FK_Floorsets_Fixtures_Supercategories]
 GO
 
 /*
@@ -327,6 +361,10 @@ This file holds all the data allocations pulled from the excel file for
 backups and extractions.
 
 Written by: Zach Ventimiglia
+
+Update: Andrew Miller (4/2/2025)
+Update Purpose: Replaced Category column with
+Supercategory_TUID and Subcategory columns
 */
 SET ANSI_NULLS ON
 GO
@@ -336,7 +374,8 @@ GO
 
 CREATE TABLE [dbo].[Sales_Allocation](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
-	[CATEGORY_NAME] [varchar](100) NULL,
+	[SUPERCATEGORY_TUID] [int] NOT NULL,
+	[SUBCATEGORY] [varchar](100) NULL,
 	[TOTAL_SALES] [int] NULL,
 	[SALES_TUID] [int] NULL,
 PRIMARY KEY CLUSTERED 
@@ -350,9 +389,16 @@ ALTER TABLE [dbo].[Sales_Allocation]  WITH CHECK ADD FOREIGN KEY([SALES_TUID])
 REFERENCES [dbo].[Sales] ([TUID])
 GO
 
-ALTER TABLE [dbo].[Sales_Allocation]  WITH CHECK ADD  CONSTRAINT [FK_SalesAllocation_Sales] FOREIGN KEY([SALES_TUID])
+ALTER TABLE [dbo].[Sales_Allocation]  WITH CHECK ADD CONSTRAINT [FK_SalesAllocation_Sales] FOREIGN KEY([SALES_TUID])
 REFERENCES [dbo].[Sales] ([TUID])
 GO
 
+ALTER TABLE [dbo].[Sales_Allocation] WITH CHECK ADD CONSTRAINT [FK_SalesAllocation_Supercategories] FOREIGN KEY([SUPERCATEGORY_TUID])
+REFERENCES [dbo].[Supercategories] ([TUID])
+Go
+
 ALTER TABLE [dbo].[Sales_Allocation] CHECK CONSTRAINT [FK_SalesAllocation_Sales]
+GO
+
+ALTER TABLE [dbo].[Sales_Allocation] CHECK CONSTRAINT [FK_SalesAllocation_Supercategories]
 GO
