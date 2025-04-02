@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# ! If you're running windows, make sure this file is 
+# ! If you're running Windows, make sure this file is 
 # ! LF instead of CLRF in VSCode on the bottom right
 
-# Wait 60 seconds for SQL Server to start up
+# Wait for SQL Server to start up
 DBSTATUS=1
 ERRCODE=1
 i=0
@@ -20,13 +20,27 @@ if [[ $DBSTATUS -ne 0 || $ERRCODE -ne 0 ]]; then
   exit 1
 fi
 
-# Ensure the target database exists
-echo "Ensuring the database $DB_NAME exists..."
-/opt/mssql-tools18/bin/sqlcmd -S localhost,1433 -U sa -P "$MSSQL_SA_PASSWORD" -C -Q "IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = '$DB_NAME') CREATE DATABASE [$DB_NAME];"
-if [ $? -ne 0 ]; then
-  echo "Failed to create or verify the database $DB_NAME. Exiting."
-  exit 1
-fi
+# Ensure the target database exists, retrying if necessary
+i=0
+while true; do
+  echo "Checking if database $DB_NAME exists..."
+  DB_EXISTS=$(/opt/mssql-tools18/bin/sqlcmd -S localhost,1433 -U sa -P "$MSSQL_SA_PASSWORD" -C -Q "SET NOCOUNT ON; SELECT COUNT(*) FROM sys.databases WHERE name = '$DB_NAME';" -h -1 -t 1 | tr -d '[:space:]')
+  
+  if [[ "$DB_EXISTS" == "1" ]]; then
+    echo "Database $DB_NAME already exists."
+    break
+  fi
+  
+  if [[ $i -ge 30 ]]; then
+    echo "Database $DB_NAME could not be created after multiple attempts. Exiting."
+    exit 1
+  fi
+  
+  echo "Database $DB_NAME does not exist. Creating..."
+  /opt/mssql-tools18/bin/sqlcmd -S localhost,1433 -U sa -P "$MSSQL_SA_PASSWORD" -C -Q "CREATE DATABASE [$DB_NAME];"
+  sleep 2
+  i=$((i+1))
+done
 
 # Function to run SQL scripts
 run_sql_scripts() {
@@ -48,6 +62,7 @@ run_sql_scripts() {
         echo "Error executing $file. Exiting."
         exit 1
       fi
+      sleep 1
     done
   else
     echo "No .sql files found in $dir. Skipping."
