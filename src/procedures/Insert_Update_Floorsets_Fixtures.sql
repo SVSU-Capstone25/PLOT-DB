@@ -14,11 +14,17 @@ GO
 -- Updated by: Andrew Miller
 -- Update Date: 4/2/2025
 -- Description: Added Supercategory_TUID, and Subcategory fields
+-- =============================================
+-- Updated by: Zach Ventimiglia
+-- Update Date: 4/3/2025
+-- Description: Added EDITOR_ID field and made the update search that field
+-- =============================================
 CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Floorsets_Fixtures]
 (
 	@ID INT = NULL,
 	@FLOORSET_TUID INT,
 	@FIXTURE_TUID INT,
+	@EDITOR_ID INT,
 	@XPOS DECIMAL(9,6) = NULL,
 	@YPOS DECIMAL(9,6) = NULL,
 	@HANGER_STACK INT = NULL,
@@ -37,6 +43,7 @@ BEGIN
 			(
 				FLOORSET_TUID,
 				FIXTURE_TUID,
+				EDITOR_ID,
 				X_POS,
 				Y_POS,
 				HANGER_STACK,
@@ -50,6 +57,7 @@ BEGIN
 			(
 				@FLOORSET_TUID,
 				@FIXTURE_TUID,
+				@EDITOR_ID,
 				@XPOS,
 				@YPOS,
 				@HANGER_STACK,
@@ -73,7 +81,8 @@ BEGIN
 				SUPERCATEGORY_TUID = @SUPERCATEGORY_TUID,
 				SUBCATEGORY = @SUBCATEGORY,
 				NOTE = @NOTE
-			WHERE TUID = @ID
+			WHERE EDITOR_ID = @EDITOR_ID AND
+				FLOORSET_TUID = @FLOORSET_TUID
 			SELECT 'OK 200' AS Response
 		END
 	END TRY

@@ -297,8 +297,9 @@ CREATE TABLE [dbo].[Floorsets_Fixtures](
 	[TOT_LF] [decimal](10, 2) NOT NULL,
 	[ALLOCATED_LF] [decimal](10, 2) NULL,
 	[SUBCATEGORY] [varchar](100) NULL,
+	[NOTE] [varchar](1000) NULL,
 	[SUPERCATEGORY_TUID] [int] NOT NULL,
-	[NOTE] [varchar](1000) NOT NULL,
+	[EDITOR_ID] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[TUID] ASC
@@ -317,8 +318,8 @@ ALTER TABLE [dbo].[Floorsets_Fixtures]  WITH CHECK ADD FOREIGN KEY([FLOORSET_TUI
 REFERENCES [dbo].[Floorsets] ([TUID])
 GO
 
-ALTER TABLE [dbo].[Floorsets_Fixtures] WITH CHECK ADD CONSTRAINT [FK_Floorsets_Fixtures_Supercategories] FOREIGN KEY([SUPERCATEGORY_TUID])
-REFERENCES [dbo].[Supercategories]([TUID])
+ALTER TABLE [dbo].[Floorsets_Fixtures]  WITH CHECK ADD  CONSTRAINT [FK_Floorsets_Fixtures_Supercategories] FOREIGN KEY([SUPERCATEGORY_TUID])
+REFERENCES [dbo].[Supercategories] ([TUID])
 GO
 
 ALTER TABLE [dbo].[Floorsets_Fixtures] CHECK CONSTRAINT [FK_Floorsets_Fixtures_Supercategories]
