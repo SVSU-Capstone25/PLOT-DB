@@ -1,3 +1,19 @@
+/* Update: 4/2/2025
+   Purpose: Adjusting the seed to include Supercategories table,
+   replacing Category in Sales_allocation and floorsets_fixtures
+   with Supercategory_tuid and Subcategory.
+
+   Changed references to "HEIGHT" in Stores and Fixtures to
+   "LENGTH"
+*/
+
+INSERT INTO Supercategories
+([NAME],[COLOR])
+VALUES
+('Men''s', 'blue'),
+('Women''s', 'pink'),
+('Accessories', 'green');
+
 INSERT INTO Roles 
 ([NAME])
 VALUES
@@ -6,14 +22,14 @@ VALUES
 ('Employee');
 
 INSERT INTO Stores 
-([NAME], [ADDRESS], [CITY], [STATE], [ZIP], [WIDTH], [HEIGHT], [BLUEPRINT_IMAGE])
+([NAME], [ADDRESS], [CITY], [STATE], [ZIP], [WIDTH], [LENGTH], [BLUEPRINT_IMAGE])
 VALUES
 ('Pato''s Closet Saginaw', '5206 Bay Rd', 'Saginaw','MI', '48604', 85, 65, 0x01020304),
 ('Pato''s Closet Flint', '3192 S Linden Rd', 'Flint', 'MI', '48507-3004', 75, 75, 0x01020304),
 ('Pato''s Closet Dallas', '8430 Abrams Rd', 'Dallas', 'TX', '75243', 95, 55, 0x01020304);
 
 INSERT INTO Fixtures 
-([NAME], [WIDTH], [HEIGHT], [LF_CAP], [ICON], [STORE_TUID])
+([NAME], [WIDTH], [LENGTH], [LF_CAP], [ICON], [STORE_TUID])
 VALUES
 ('Long Table', 2, 5, 25, 0x01020304, 1),
 ('Double Rail Rack', 5, 5, 20, 0x01020304, 1),
@@ -31,15 +47,16 @@ VALUES
 ('Feb25 Floorset', 2, '1/26/2025', 3, '1/28/2025', 1),
 ('March25 Floorset', 3, '1/26/2025', 4, '1/30/2025', 4);
 
-INSERT INTO Floorsets_Fixtures ([FLOORSET_TUID], [FIXTURE_TUID], [X_POS], [Y_POS], [HANGER_STACK], [TOT_LF], [ALLOCATED_LF], [CATEGORY], [NOTE])
+INSERT INTO Floorsets_Fixtures ([FLOORSET_TUID], [FIXTURE_TUID], [X_POS], [Y_POS], [HANGER_STACK],
+[TOT_LF], [ALLOCATED_LF], [SUBCATEGORY], [SUPERCATEGORY_TUID], [NOTE])
 VALUES
-(1,1,0,0,3,75,70,'Men''s', 'Testing Notes Column'),
-(2,2,20,20,2,40,30,'Women''s', 'Testing Notes Column'),
-(3,3,30,15,1,18,17,'Men''s', 'Testing Notes Column'),
-(4,4,60,30,3,30,28,'Men''s', 'Testing Notes Column'),
-(5,5,95,63,4,100,87,'Accessories', 'Testing Notes Column'),
-(5,6,70,30,3,45,45,'Women''s', 'Testing Notes Column'),
-(5,7,18,23,1,20,4,'Accessories', 'Testing Notes Column');
+(1,1,0,0,3,75,70,'Athleticwear Jackets', 1, 'Testing Notes Column'),
+(2,2,20,20,2,40,30,'Bottoms Denim', 2, 'Testing Notes Column'),
+(3,3,30,15,1,18,17,'Athleticwear Pants',1, 'Testing Notes Column'),
+(4,4,60,30,3,30,28,'Suits',1, 'Testing Notes Column'),
+(5,5,95,63,4,100,87,'Hats',3, 'Testing Notes Column'),
+(5,6,70,30,3,45,45,'Bottoms Khaki',2, 'Testing Notes Column'),
+(5,7,18,23,1,20,4,'Belts',3, 'Testing Notes Column');
 
 INSERT INTO Users ([FIRST_NAME], [LAST_NAME], [EMAIL], [PASSWORD], [ROLE_TUID], [ACTIVE])
 VALUES
@@ -75,11 +92,11 @@ VALUES
 ('SalesFeb24.xlxs', CONVERT(VARBINARY(MAX), '\Excel\SalesData\DummyFile.txt'), '2/1/2024', '1/26/2025', 4),
 ('SalesMar24.xlsx', CONVERT(VARBINARY(MAX), '\Excel\SalesData\DummyFile.txt'), '3/1/2024', '1/26/2025', 5);
 
-INSERT INTO Sales_Allocation ([CATEGORY_NAME], [TOTAL_SALES], [SALES_TUID])
+INSERT INTO Sales_Allocation ([SUBCATEGORY], [SUPERCATEGORY_TUID], [TOTAL_SALES], [SALES_TUID])
 VALUES
-('Accessories Belts', 155, 3),
-('Accessories Hats', 207, 3),
-('Mens Athleticwear Jackets', 370, 3),
-('Mens Athleticwear Pants', 819, 3),
-('Womens Bottoms Denim', 3030, 3),
-('Womens Bottoms Khaki', 515, 3);
+('Belts', 3, 155, 3),
+('Hats', 3, 207, 3),
+('Athleticwear Jackets', 1, 370, 3),
+('Athleticwear Pants', 1, 819, 3),
+('Bottoms Denim', 2, 3030, 3),
+('Bottoms Khaki', 2, 515, 3);
