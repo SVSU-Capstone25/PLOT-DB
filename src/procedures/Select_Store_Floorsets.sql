@@ -1,4 +1,3 @@
-/****** Object:  StoredProcedure [dbo].[Select_Stores_Fixtures]    Script Date: 4/4/2025 5:27:37 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -7,12 +6,12 @@ GO
 
 -- =============================================
 -- Author: Zach Ventimiglia      
--- Create Date: 4/1/2025
+-- Create Date: 4/4/2025
 -- Description: 
--- This select grabs all the fixture models for a store.
+-- This select grabs all the floorsets for a store.
 -- =============================================
 
-CREATE OR ALTER PROCEDURE [dbo].[Select_Stores_Fixtures]
+CREATE OR ALTER PROCEDURE [dbo].[Select_Stores_Floorsets]
 (
 	@StoreID INT = NULL
 )
@@ -21,7 +20,7 @@ BEGIN
 	IF @StoreID IS NOT NULL
 	BEGIN
 		SELECT *
-		FROM Fixtures
+		FROM Floorsets
 		WHERE STORE_TUID = @StoreID
 	END
 	ELSE

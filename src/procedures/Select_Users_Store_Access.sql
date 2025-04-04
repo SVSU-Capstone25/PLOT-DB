@@ -28,7 +28,7 @@ BEGIN
 			STATE,
 			ZIP,
 			WIDTH,
-			HEIGHT,
+			LENGTH,
 			BLUEPRINT_IMAGE
 		FROM Access AS a JOIN Stores AS s 
 			ON a.STORE_TUID = s.TUID
