@@ -1,9 +1,20 @@
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
 -- =============================================
 -- Author:      <Krzysztof,Hejno>
 -- Create Date: <2/14/2025>
 -- Description: <This procedure adds a new floorset to the table if ID is not provided, or updates the floorset with a given ID.>
 -- =============================================
-CREATE PROCEDURE [dbo].[Insert_Update_Floorsets]
+-- Updated By: Zach Ventimiglia
+-- Date: 4/5/2025
+-- Description: Added the new column for insertion
+-- =============================================
+
+CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Floorsets]
 (
     @ID INT = NULL,
 	@NAME VARCHAR(100) = NULL,
@@ -11,7 +22,8 @@ CREATE PROCEDURE [dbo].[Insert_Update_Floorsets]
 	@DATE_CREATED DATETIME = NULL,
 	@CREATED_BY INT = NULL,
 	@DATE_MODIFIED DATETIME = NULL,
-	@MODIFIED_BY INT = NULL
+	@MODIFIED_BY INT = NULL,
+	@FLOORSET_IMAGE VARBINARY(MAX) = NULL
 )
 AS
 BEGIN
@@ -22,8 +34,26 @@ BEGIN
 	BEGIN TRY
 	IF @ID IS NULL
 		BEGIN
-			INSERT INTO Floorsets (NAME,STORE_TUID,DATE_CREATED,CREATED_BY,DATE_MODIFIED,MODIFIED_BY) 
-			VALUES (@NAME,@STORE_TUID,@DATE_CREATED,@CREATED_BY,@DATE_MODIFIED,@MODIFIED_BY);
+			INSERT INTO Floorsets 
+			(
+				NAME,
+				STORE_TUID,
+				DATE_CREATED,
+				CREATED_BY,
+				DATE_MODIFIED,
+				MODIFIED_BY,
+				FLOORSET_IMAGE
+			) 
+			VALUES 
+			(
+				@NAME,
+				@STORE_TUID,
+				@DATE_CREATED,
+				@CREATED_BY,
+				@DATE_MODIFIED,
+				@MODIFIED_BY,
+				@FLOORSET_IMAGE
+			);
 
 			SELECT 'OK 200' AS Response
 		END
@@ -31,13 +61,14 @@ BEGIN
 	ELSE
 		BEGIN
 			UPDATE Floorsets 
-			SET NAME=@NAME,
-				STORE_TUID=@STORE_TUID,
-				DATE_CREATED=@DATE_CREATED,
-				CREATED_BY=@CREATED_BY,
-				DATE_MODIFIED=@DATE_MODIFIED,
-				MODIFIED_BY=@MODIFIED_BY
-			WHERE TUID=@ID
+			SET NAME = @NAME,
+				STORE_TUID = @STORE_TUID,
+				DATE_CREATED = @DATE_CREATED,
+				CREATED_BY = @CREATED_BY,
+				DATE_MODIFIED = @DATE_MODIFIED,
+				MODIFIED_BY = @MODIFIED_BY,
+				FLOORSET_IMAGE = @FLOORSET_IMAGE
+			WHERE TUID = @ID
 			
 			SELECT 'OK 200' AS Response;
 		END
@@ -50,4 +81,3 @@ BEGIN
 
 END
 GO
-
