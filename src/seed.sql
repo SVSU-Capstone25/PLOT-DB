@@ -41,22 +41,22 @@ VALUES
 
 INSERT INTO Floorsets ([NAME], [STORE_TUID], [DATE_CREATED], [CREATED_BY], [DATE_MODIFIED], [MODIFIED_BY])
 VALUES
-('Oct24 Floorset', 1, '10/7/2024', 1, '10/7/2024 10:15:30', 2),
-('Dec24 Floorset', 1, '11/29/2024', 2, '11/30/2024', 2),
-('Jan25 Floorset', 2, '1/3/2025', 3, '1/5/2025', 3),
-('Feb25 Floorset', 2, '1/26/2025', 3, '1/28/2025', 1),
-('March25 Floorset', 3, '1/26/2025', 4, '1/30/2025', 4);
+('Oct24 Floorset', 1, '10/7/2024', 1, '10/7/2024 10:15:30', 2, 0x89504E470D0A1A0A0000000D4948445200000100),
+('Dec24 Floorset', 1, '11/29/2024', 2, '11/30/2024', 2, 0x89504E470D0A1A0A0000000D4948445200000100),
+('Jan25 Floorset', 2, '1/3/2025', 3, '1/5/2025', 3, 0x89504E470D0A1A0A0000000D4948445200000100),
+('Feb25 Floorset', 2, '1/26/2025', 3, '1/28/2025', 1, 0x89504E470D0A1A0A0000000D4948445200000100),
+('March25 Floorset', 3, '1/26/2025', 4, '1/30/2025', 4, 0x89504E470D0A1A0A0000000D4948445200000100);
 
 INSERT INTO Floorsets_Fixtures ([FLOORSET_TUID], [FIXTURE_TUID], [X_POS], [Y_POS], [HANGER_STACK],
 [TOT_LF], [ALLOCATED_LF], [SUBCATEGORY], [SUPERCATEGORY_TUID], [NOTE])
 VALUES
-(1,1,0,0,3,75,70,'Athleticwear Jackets', 1, 'Testing Notes Column'),
-(2,2,20,20,2,40,30,'Bottoms Denim', 2, 'Testing Notes Column'),
-(3,3,30,15,1,18,17,'Athleticwear Pants',1, 'Testing Notes Column'),
-(4,4,60,30,3,30,28,'Suits',1, 'Testing Notes Column'),
-(5,5,95,63,4,100,87,'Hats',3, 'Testing Notes Column'),
-(5,6,70,30,3,45,45,'Bottoms Khaki',2, 'Testing Notes Column'),
-(5,7,18,23,1,20,4,'Belts',3, 'Testing Notes Column');
+(1,1,0,0,3,75,70,'Athleticwear Jackets', 1, 'Testing Notes Column', 1),
+(2,2,20,20,2,40,30,'Bottoms Denim', 2, 'Testing Notes Column', 1),
+(3,3,30,15,1,18,17,'Athleticwear Pants',1, 'Testing Notes Column', 1),
+(4,4,60,30,3,30,28,'Suits',1, 'Testing Notes Column', 1),
+(5,5,95,63,4,100,87,'Hats',3, 'Testing Notes Column', 1),
+(5,6,70,30,3,45,45,'Bottoms Khaki',2, 'Testing Notes Column', 2),
+(5,7,18,23,1,20,4,'Belts',3, 'Testing Notes Column', 3);
 
 INSERT INTO Users ([FIRST_NAME], [LAST_NAME], [EMAIL], [PASSWORD], [ROLE_TUID], [ACTIVE])
 VALUES

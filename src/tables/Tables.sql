@@ -252,6 +252,7 @@ CREATE TABLE [dbo].[Floorsets](
 	[CREATED_BY] [int] NOT NULL,
 	[DATE_MODIFIED] [datetime] NOT NULL,
 	[MODIFIED_BY] [int] NOT NULL,
+	[FLOORSET_IMAGE] [varbinary](max) NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[TUID] ASC
