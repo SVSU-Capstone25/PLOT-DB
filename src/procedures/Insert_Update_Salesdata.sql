@@ -15,7 +15,7 @@ GO
 -- Description: Removed USE [sqlpreview] statement. Caused bugs when testing locally.
 -- While it doesn't appear to have caused bugs in Docker, since it was accepted into main before,
 -- it wouldn't have a functional role to play, and risks introducing bugs in the future.
-CREATE PROCEDURE [dbo].[Insert_Update_Sales]
+CREATE PROCEDURE [dbo].[Insert_Update_Salesdata]
 (
     @TUID INT = NULL,
 	@FILE_NAME VARCHAR(100) = NULL,

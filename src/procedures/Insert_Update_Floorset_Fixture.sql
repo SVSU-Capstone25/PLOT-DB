@@ -19,7 +19,7 @@ GO
 -- Update Date: 4/3/2025
 -- Description: Added EDITOR_ID field and made the update search that field
 -- =============================================
-CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Floorsets_Fixtures]
+CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Floorset_Fixture]
 (
 	@TUID INT = NULL,
 	@FLOORSET_TUID INT,
