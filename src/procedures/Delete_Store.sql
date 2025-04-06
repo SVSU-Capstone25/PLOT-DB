@@ -14,7 +14,7 @@ GO
 
 CREATE   PROCEDURE [dbo].[Delete_Store]
 (
-    @StoreID INT = NULL
+    @STORE_TUID INT = NULL
 )
 AS
 BEGIN
@@ -23,26 +23,26 @@ BEGIN
         IF EXISTS (
             SELECT 1 
                 FROM Stores
-                WHERE TUID = @StoreID
+                WHERE TUID = @STORE_TUID
             )
 
         -- Store exists - remove store
         BEGIN
 			-- Delete floorsets associated to the store
 			DELETE FROM Floorsets
-			WHERE STORE_TUID = @StoreID;
+			WHERE STORE_TUID = @STORE_TUID;
 
 			-- Delete fixtures associated to the store
 			DELETE FROM Fixtures
-			WHERE STORE_TUID = @StoreID;
+			WHERE STORE_TUID = @STORE_TUID;
 
             -- Delete from the access table where store exists
             DELETE FROM Access
-            WHERE STORE_TUID = @StoreID;
+            WHERE STORE_TUID = @STORE_TUID;
 			
 			-- Delete the Store from the table
             DELETE FROM Stores
-            WHERE TUID = @StoreID;
+            WHERE TUID = @STORE_TUID;
 
             -- Successful response
             SELECT 'OK 200' AS Response;

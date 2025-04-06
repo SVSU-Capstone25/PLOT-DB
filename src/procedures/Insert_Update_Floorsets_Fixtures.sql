@@ -21,7 +21,7 @@ GO
 -- =============================================
 CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Floorsets_Fixtures]
 (
-	@ID INT = NULL,
+	@TUID INT = NULL,
 	@FLOORSET_TUID INT,
 	@FIXTURE_TUID INT,
 	@EDITOR_ID INT,
@@ -37,7 +37,7 @@ CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Floorsets_Fixtures]
 AS
 BEGIN
 	BEGIN TRY
-	IF @ID IS NULL
+	IF @TUID IS NULL
 		BEGIN
 			INSERT INTO [dbo].[Floorsets_Fixtures]
 			(

@@ -16,18 +16,18 @@ GO
 -- Description: Changed "height" to "length"
 CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Fixtures]
 (
-	@ID INT = NULL,
+	@TUID INT = NULL,
 	@NAME VARCHAR(100) = NULL,
 	@WIDTH INT = NULL,
 	@LENGTH INT = NULL,
 	@LF_CAP DECIMAL(10,2) = NULL,
 	@ICON VARBINARY(MAX) = NULL,
-	@STORE_ID INT = NULL
+	@STORE_TUID INT = NULL
 )
 AS
 BEGIN
 BEGIN TRY
-	IF @ID IS NULL
+	IF @TUID IS NULL
 		BEGIN
 			INSERT INTO [dbo].[Fixtures]
 			(
@@ -45,7 +45,7 @@ BEGIN TRY
 				@LENGTH,
 				@LF_CAP,
 				@ICON,
-				@STORE_ID
+				@STORE_TUID
 			) 
 			SELECT 'OK 200' AS Response
 		END
@@ -58,8 +58,8 @@ BEGIN TRY
 				LENGTH = @LENGTH,
 				LF_CAP = @LF_CAP,
 				ICON = @ICON,
-				STORE_TUID = @STORE_ID
-			WHERE TUID = @ID
+				STORE_TUID = @STORE_TUID
+			WHERE TUID = @TUID
 			SELECT 'OK 200' AS Response
 		END
 	END TRY

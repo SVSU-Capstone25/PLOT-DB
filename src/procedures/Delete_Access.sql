@@ -16,24 +16,24 @@ GO
 CREATE PROCEDURE [dbo].[Delete_Access]
 
 	-- User to revoke access for
-	@User_tuid INT,	
+	@USER_TUID INT,	
 	
 	-- Store to revoke access to
-	@Store_tuid INT
+	@STORE_TUID INT
 	
 AS
 BEGIN
 
 	-- If store and user both exist
-	IF EXISTS (SELECT 1 FROM Users WHERE TUID = @User_tuid)
+	IF EXISTS (SELECT 1 FROM Users WHERE TUID = @USER_TUID)
 	AND 
-	EXISTS (SELECT 1 FROM Store WHERE TUID = @Store_tuid)
+	EXISTS (SELECT 1 FROM Store WHERE TUID = @STORE_TUID)
 
 	BEGIN
 		BEGIN TRY
 			-- Delete store from access table for that user
 			DELETE FROM access
-			WHERE USER_TUID = @User_tuid AND STORE_TUID = @Store_tuid
+			WHERE USER_TUID = @USER_TUID AND STORE_TUID = @STORE_TUID
 			
 			SELECT 'OK 200' As Response;
 		END TRY

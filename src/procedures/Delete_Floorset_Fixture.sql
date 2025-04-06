@@ -13,7 +13,7 @@ GO
 
 CREATE OR ALTER PROCEDURE [dbo].[Delete_Floorset_Fixture]
 (
-    @FloorsetFixtureID INT = NULL
+    @FLOORSET_FIXTURE_TUID INT = NULL
 )
 AS
 BEGIN
@@ -22,7 +22,7 @@ BEGIN
         IF EXISTS (
             SELECT 1 
                 FROM Floorsets_Fixtures
-                WHERE TUID = @FloorsetFixtureID
+                WHERE TUID = @FLOORSET_FIXTURE_TUID
             )
 
         -- Floorset Fixture exists - remove floorset
@@ -30,7 +30,7 @@ BEGIN
 
 			-- Delete floorsets fixture associated to the store
 			DELETE FROM Floorsets_Fixtures
-			WHERE TUID = @FloorsetFixtureID;
+			WHERE TUID = @FLOORSET_FIXTURE_TUID;
 
             -- Successful response
             SELECT 'OK 200' AS Response;

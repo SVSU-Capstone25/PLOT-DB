@@ -14,7 +14,7 @@ GO
 
 CREATE OR ALTER PROCEDURE [dbo].[Delete_Floorset]
 (
-    @FloorsetID INT = NULL
+    @FLOORSET_TUID INT = NULL
 )
 AS
 BEGIN
@@ -23,18 +23,18 @@ BEGIN
         IF EXISTS (
             SELECT 1 
                 FROM Floorsets
-                WHERE TUID = @FloorsetID
+                WHERE TUID = @FLOORSET_TUID
             )
 
         -- Floorset exists - remove floorset
         BEGIN
 			-- Delete the sales data from the table
             DELETE FROM Sales
-            WHERE FLOORSET_TUID = @FloorsetID;
+            WHERE FLOORSET_TUID = @FLOORSET_TUID;
 
 			-- Delete floorsets associated to the store
 			DELETE FROM Floorsets
-			WHERE TUID = @FloorsetID;
+			WHERE TUID = @FLOORSET_TUID;
 
             -- Successful response
             SELECT 'OK 200' AS Response;

@@ -17,17 +17,17 @@ except floorset-fixtures as ff (floorset-fixtures not
 in this particular file)
 */
 
--- Function: Get User Role by UserTUID
+-- Function: Get User Role by USER_TUID
 -- Checks out - Maybe make this take from top
 -- It's not like the user can have multiple roles
-CREATE FUNCTION [dbo].[GetUserRole](@UserTUID INT)
+CREATE FUNCTION [dbo].[GetUserRole](@USER_TUID INT)
 RETURNS NVARCHAR(100)
 AS
 BEGIN
     RETURN (SELECT roles.NAME
             FROM roles
             INNER JOIN users ON roles.TUID = users.ROLE_TUID
-            WHERE users.TUID = @UserTUID);
+            WHERE users.TUID = @USER_TUID);
 END;
 GO
 

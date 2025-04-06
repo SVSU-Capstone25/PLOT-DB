@@ -42,7 +42,7 @@ CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Stores]
     @WIDTH INT = NULL,
     @LENGTH INT = NULL,
     @BLUEPRINT_IMAGE VARBINARY(MAX) = NULL,
-    @UserTUIDs VARCHAR(MAX) = NULL --Comma seperated list of user TUIDs
+    @USER_TUIDS VARCHAR(MAX) = NULL --Comma seperated list of user TUIDs
 AS
 BEGIN
     --show number of rows affected
@@ -76,21 +76,21 @@ BEGIN
 		);
 
         --int to hold the new store TUID
-        DECLARE @NewStoreTUID INT = SCOPE_IDENTITY();
+        DECLARE @NEW_STORE_TUID INT = SCOPE_IDENTITY();
 
         --INSERT all Owners into the Access table for the new store
         INSERT INTO Access (USER_TUID, STORE_TUID)
-        SELECT Users.TUID, @NewStoreTUID
+        SELECT Users.TUID, @NEW_STORE_TUID
         FROM Users
         WHERE Users.ROLE_TUID = 1; --Owner TUID is 1 in DB
 
         --INSERT users into the Access table for the new store
-        IF @UserTUIDs IS NOT NULL AND @UserTUIDs <> ''
+        IF @USER_TUIDS IS NOT NULL AND @USER_TUIDS <> ''
         BEGIN
              BEGIN TRY
                 INSERT INTO Access (USER_TUID, STORE_TUID)
                 SELECT VALUE, @TUID
-                FROM STRING_SPLIT(@UserTUIDs, ',');
+                FROM STRING_SPLIT(@USER_TUIDS, ',');
             END TRY
             BEGIN CATCH
                 -- If the error is a duplicate key violation (error number 2627)
@@ -140,12 +140,12 @@ BEGIN
 			WHERE Users.ROLE_TUID = 1; --Owner TUID is 1 in DB
         
 			--INSERT users into the Access table for the store
-			IF @UserTUIDs IS NOT NULL AND @UserTUIDs <> ''
+			IF @USER_TUIDS IS NOT NULL AND @USER_TUIDS <> ''
 			BEGIN
 				BEGIN TRY
 					INSERT INTO Access (USER_TUID, STORE_TUID)
 					SELECT VALUE, @TUID
-					FROM STRING_SPLIT(@UserTUIDs, ',') AS SplitUsers
+					FROM STRING_SPLIT(@USER_TUIDS, ',') AS SplitUsers
 					WHERE NOT EXISTS (
 						SELECT 1 FROM Access 
 						WHERE Access.USER_TUID = SplitUsers.VALUE 
