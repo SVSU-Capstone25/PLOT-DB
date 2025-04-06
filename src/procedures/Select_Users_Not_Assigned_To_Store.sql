@@ -22,7 +22,10 @@ BEGIN
 	BEGIN
 		SELECT DISTINCT 
 			u.TUID, 
-			CONCAT(u.FIRST_NAME, ' ', u.LAST_NAME) AS 'Employee Name'
+			u.FIRST_NAME,
+			u.LAST_NAME,
+			u.EMAIL,
+			u.ROLE_TUID
 		FROM Users AS u
 		JOIN Access AS a ON u.TUID = a.USER_TUID
 		JOIN Stores AS s ON s.TUID = a.STORE_TUID
