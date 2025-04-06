@@ -14,11 +14,11 @@ GO
 
 CREATE OR ALTER PROCEDURE [dbo].[Select_Users_Store_Access]
 (
-	@UserID INT = NULL
+	@USER_TUID INT = NULL
 )
 AS
 BEGIN
-	IF @UserID IS NOT NULL
+	IF @USER_TUID IS NOT NULL
 	BEGIN
 		SELECT 
 			TUID,
@@ -30,9 +30,9 @@ BEGIN
 			WIDTH,
 			LENGTH,
 			BLUEPRINT_IMAGE
-		FROM Access AS a JOIN Stores AS s 
-			ON a.STORE_TUID = s.TUID
-		WHERE a.USER_TUID = @UserID
+		FROM Access JOIN Stores 
+			ON access.STORE_TUID = stores.TUID
+		WHERE access.USER_TUID = @USER_TUID
 	END
 	ELSE
 	BEGIN

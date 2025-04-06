@@ -17,31 +17,31 @@ GO
 -- =============================================
 CREATE   PROCEDURE [dbo].[Insert_Update_User]
 (
-    @ID INT = NULL,
-    @FIRSTNAME VARCHAR(747) = NULL,
-    @LASTNAME VARCHAR(747) = NULL,
+    @TUID INT = NULL,
+    @FIRST_NAME VARCHAR(747) = NULL,
+    @LAST_NAME VARCHAR(747) = NULL,
     @EMAIL VARCHAR(320) = NULL,
     @PASSWORD VARCHAR(100) = NULL,
-    @ROLENAME VARCHAR(100) = NULL,
-    @STORENAME VARCHAR(100) = NULL,
+    @ROLE_NAME VARCHAR(100) = NULL,
+    @STORE_NAME VARCHAR(100) = NULL,
     @ACTIVE BIT = 1
 )
 AS
 BEGIN
     SET NOCOUNT ON;
-    DECLARE @ROLETUID INT, @USERTUID INT, @STORETUID INT, @RESULTSET INT;
+    DECLARE @ROLE_TUID INT, @USER_TUID INT, @STORE_TUID INT, @RESULTSET INT;
 
     BEGIN TRANSACTION;
     BEGIN TRY
         -- Get Role ID
-        SET @ROLETUID = (
+        SET @ROLE_TUID = (
 			SELECT TUID 
 			FROM Roles 
-			WHERE NAME = @ROLENAME
+			WHERE NAME = @ROLE_NAME
 			);
 
         -- Insert or update user
-        IF @ID IS NULL
+        IF @TUID IS NULL
         BEGIN
             INSERT INTO [dbo].[Users] 
 			(
@@ -54,49 +54,49 @@ BEGIN
 			)
             VALUES 
 			(
-				@FIRSTNAME, 
-				@LASTNAME, 
+				@FIRST_NAME, 
+				@LAST_NAME, 
 				@EMAIL, 
 				@PASSWORD, 
-				@ROLETUID, 
+				@ROLE_TUID, 
 				@ACTIVE
 			);
             
             -- Get newly inserted user ID
-            SET @USERTUID = SCOPE_IDENTITY();
+            SET @USER_TUID = SCOPE_IDENTITY();
         END
         ELSE
         BEGIN
 			-- This only update the fields that are provided (not NULL)
             UPDATE [dbo].[Users]
             SET 
-				FIRST_NAME = COALESCE(@FIRSTNAME, FIRST_NAME), 
-                LAST_NAME = COALESCE(@LASTNAME, LAST_NAME), 
+				FIRST_NAME = COALESCE(@FIRST_NAME, FIRST_NAME), 
+                LAST_NAME = COALESCE(@LAST_NAME, LAST_NAME), 
                 EMAIL = COALESCE(@EMAIL, EMAIL), 
                 PASSWORD = COALESCE(@PASSWORD, PASSWORD), 
-                ROLE_TUID = COALESCE(@ROLETUID, ROLE_TUID), 
+                ROLE_TUID = COALESCE(@ROLE_TUID, ROLE_TUID), 
                 ACTIVE = COALESCE(@ACTIVE, ACTIVE)
             WHERE TUID = @ID;
 
-            SET @USERTUID = @ID;
+            SET @USER_TUID = @ID;
         END
 
         -- Get Store ID
-        SET @STORETUID = (
+        SET @STORE_TUID = (
 			SELECT TUID 
 			FROM Stores 
-			WHERE NAME = @STORENAME
+			WHERE NAME = @STORE_NAME
 		);
 
         -- Check if user-store association already exists
-        SET @RESULTSET = (
+        SET @RESULT_SET = (
 			SELECT COUNT(*) 
 			FROM Access 
-			WHERE USER_TUID = @USERTUID AND STORE_TUID = @STORETUID
+			WHERE USER_TUID = @USER_TUID AND STORE_TUID = @STORE_TUID
 		);
 
         -- Insert into Access table if not exists
-        IF @RESULTSET = 0
+        IF @RESULT_SET = 0
         BEGIN
             INSERT INTO [dbo].[Access] 
 			(
@@ -105,8 +105,8 @@ BEGIN
 			) 
 			VALUES 
 			(
-				@USERTUID, 
-				@STORETUID
+				@USER_TUID, 
+				@STORE_TUID
 			);
         END
 

@@ -10,12 +10,12 @@ GO
 
 CREATE OR ALTER PROCEDURE [dbo].[Select_Floorset_Fixtures]
 (
-	@FloorsetID INT = NULL
+	@FLOORSET_TUID INT = NULL
 )
 AS
 BEGIN
 	SELECT *
 	FROM Floorsets_Fixtures
-	WHERE FLOORSET_TUID = @FloorsetID
+	WHERE FLOORSET_TUID = @FLOORSET_TUID
 END
 GO

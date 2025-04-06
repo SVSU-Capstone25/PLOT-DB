@@ -30,24 +30,24 @@ CREATE OR ALTER PROCEDURE [dbo].[Delete_User]
     --  Stored procedure to delete (inactivate) user
     --  make user "ACTIVE" column inactive i.e. 0
 
-    @UserId INT -- Id of user to be deleted
+    @USER_TUID INT -- Id of user to be deleted
 
 AS
 BEGIN
     BEGIN TRY
         -- Check if the user exists
-        IF EXISTS (SELECT 1 FROM Users WHERE TUID = @UserId)
+        IF EXISTS (SELECT 1 FROM Users WHERE TUID = @USER_TUID)
 
         -- User exists - change to inactive
         BEGIN
             -- Update the Users table to set user as inactive
             UPDATE Users
             SET ACTIVE = 0
-            WHERE TUID = @UserId;
+            WHERE TUID = @USER_TUID;
 
             -- Delete from the access table where user exists
             DELETE FROM access
-            WHERE USER_TUID = @UserId;
+            WHERE USER_TUID = @USER_TUID;
 
             -- Successful response
             SELECT 'OK 200' AS Response;
