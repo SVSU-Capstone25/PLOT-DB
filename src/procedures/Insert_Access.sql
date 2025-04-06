@@ -1,4 +1,3 @@
-/****** Object:  StoredProcedure [dbo].[Insert_Access]    Script Date: 4/5/2025 8:08:47 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -15,26 +14,37 @@ GO
 	Written By: Krzysztof Hejno
 */
 
-CREATE PROCEDURE [dbo].[Insert_Access]
+CREATE OR ALTER PROCEDURE [dbo].[Insert_Access]
 
 	-- User to add access for
-	@User_tuid INT,	
+	@USER_TUID INT,	
 	
 	-- Store to add access to
-	@Store_tuid INT
+	@STORE_TUID INT
 	
 AS
 BEGIN
 
 	-- If store and user both exist
-	IF NOT EXISTS (SELECT 1 FROM Access WHERE USER_TUID = @User_tuid AND STORE_TUID=@Store_tuid)
+	IF NOT EXISTS (
+		SELECT 1 
+		FROM Access 
+		WHERE USER_TUID = @USER_TUID AND STORE_TUID = @STORE_TUID
+	)
 
 	BEGIN
 		BEGIN TRY
 			-- add store from access table for that user
-			INSERT INTO Access (USER_TUID,STORE_TUID) 
-			VALUES (@User_tuid,@Store_tuid)
-			
+			INSERT INTO Access 
+			(
+				USER_TUID,
+				STORE_TUID
+			) 
+			VALUES 
+			(
+				@USER_TUID, 
+				@STORE_TUID
+			)
 			
 			SELECT 'OK 200' As Response;
 		END TRY
