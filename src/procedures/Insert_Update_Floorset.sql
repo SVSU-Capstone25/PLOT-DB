@@ -14,7 +14,7 @@ GO
 -- Description: Added the new column for insertion
 -- =============================================
 
-CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Floorsets]
+CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Floorset]
 (
     @TUID INT = NULL,
 	@NAME VARCHAR(100) = NULL,

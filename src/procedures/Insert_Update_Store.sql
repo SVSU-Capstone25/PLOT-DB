@@ -31,7 +31,7 @@ By: Andrew Miller
 Reasoning: Changed "Height" to "Length" for stores
 */
 
-CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Stores]
+CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Store]
     --TUID null for deciding if it should insert or update
 	@TUID INT = NULL,  
     @NAME VARCHAR(100) = NULL,

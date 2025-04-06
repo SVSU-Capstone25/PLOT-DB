@@ -14,7 +14,7 @@ GO
 -- Update: 4/2/2025
 -- By: Andrew Miller
 -- Description: Changed "height" to "length"
-CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Fixtures]
+CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Fixture]
 (
 	@TUID INT = NULL,
 	@NAME VARCHAR(100) = NULL,

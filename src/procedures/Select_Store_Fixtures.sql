@@ -12,7 +12,7 @@ GO
 -- This select grabs all the fixture models for a store.
 -- =============================================
 
-CREATE OR ALTER PROCEDURE [dbo].[Select_Stores_Fixtures]
+CREATE OR ALTER PROCEDURE [dbo].[Select_Store_Fixtures]
 (
 	@STORE_TUID INT = NULL
 )

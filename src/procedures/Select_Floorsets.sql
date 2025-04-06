@@ -12,7 +12,7 @@ GO
 -- is not null, it'll grab the singular floorset
 -- =============================================
 
-CREATE OR ALTER PROCEDURE [dbo].[Select_Floorset]
+CREATE OR ALTER PROCEDURE [dbo].[Select_Floorsets]
 (
 	@FLOORSET_TUID INT = NULL
 )
