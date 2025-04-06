@@ -21,11 +21,22 @@ AS
 BEGIN
 	IF @Email IS NOT NULL AND @NewPassword IS NOT NULL
 	BEGIN
-		UPDATE Users
-		SET PASSWORD = @NewPassword
-		WHERE EMAIL = @Email
+		-- Checking if the email exists
+		IF EXISTS (
+			SELECT 1 
+			FROM Users
+			WHERE EMAIL = @EMAIL
+		) 
+		BEGIN
+			UPDATE Users
+			SET PASSWORD = @NewPassword
+			WHERE EMAIL = @Email
+		END
+		ELSE
+		BEGIN
+			SELECT 'Error 404: Email not found' AS Response
+		END
 	END
-	ELSE
 	BEGIN
 		SELECT 'Error 500' AS Response
 	END
