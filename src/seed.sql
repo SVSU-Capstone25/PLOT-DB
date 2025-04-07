@@ -69,7 +69,8 @@ VALUES
 ('Eugene', 'Fitzherbert', 'EugeneFitzherbert@email.com', 'AQAAAAIAAYagAAAAELGtllXbuMtA/l7pTwLJYwQ58frQrX/grjhu0Ce4LyH9AdAzMbKBgxyaMiM4VMvLHA==', 3, 1), 
 ('Mike', 'Wazowski', 'MikeWazowski@email.com', 'AQAAAAIAAYagAAAAELGtllXbuMtA/l7pTwLJYwQ58frQrX/grjhu0Ce4LyH9AdAzMbKBgxyaMiM4VMvLHA==', 3, 1), 
 ('Edward', 'Elric', 'EdwardElric@email.com', 'AQAAAAIAAYagAAAAELGtllXbuMtA/l7pTwLJYwQ58frQrX/grjhu0Ce4LyH9AdAzMbKBgxyaMiM4VMvLHA==', 3, 1), 
-('Courtney', 'LaPlante', 'CourtneyLaPlante@email.com', 'AQAAAAIAAYagAAAAELGtllXbuMtA/l7pTwLJYwQ58frQrX/grjhu0Ce4LyH9AdAzMbKBgxyaMiM4VMvLHA==', 3, 1);
+('Courtney', 'LaPlante', 'CourtneyLaPlante@email.com', 'AQAAAAIAAYagAAAAELGtllXbuMtA/l7pTwLJYwQ58frQrX/grjhu0Ce4LyH9AdAzMbKBgxyaMiM4VMvLHA==', 3, 1),
+('Jordan', 'Houlihan', 'jordan_houlihan@yahoo.com', 'AQAAAAIAAYagAAAAELGtllXbuMtA/l7pTwLJYwQ58frQrX/grjhu0Ce4LyH9AdAzMbKBgxyaMiM4VMvLHA==', 3, 1);
 
 INSERT INTO Access ([USER_TUID], [STORE_TUID])
 VALUES

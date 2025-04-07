@@ -15,7 +15,7 @@ GO
 -- Ran transactions when inserting into 2 seperate tables due to failures.
 -- Ensures that either both operations succeed or none does.
 -- =============================================
-CREATE   PROCEDURE [dbo].[Insert_Update_User]
+CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_User]
 (
     @TUID INT = NULL,
     @FIRST_NAME VARCHAR(747) = NULL,
@@ -29,7 +29,7 @@ CREATE   PROCEDURE [dbo].[Insert_Update_User]
 AS
 BEGIN
     SET NOCOUNT ON;
-    DECLARE @ROLE_TUID INT, @USER_TUID INT, @STORE_TUID INT, @RESULTSET INT;
+    DECLARE @ROLE_TUID INT, @USER_TUID INT, @STORE_TUID INT, @RESULT_SET INT;
 
     BEGIN TRANSACTION;
     BEGIN TRY
@@ -76,9 +76,9 @@ BEGIN
                 PASSWORD = COALESCE(@PASSWORD, PASSWORD), 
                 ROLE_TUID = COALESCE(@ROLE_TUID, ROLE_TUID), 
                 ACTIVE = COALESCE(@ACTIVE, ACTIVE)
-            WHERE TUID = @ID;
+            WHERE TUID = @TUID;
 
-            SET @USER_TUID = @ID;
+            SET @USER_TUID = @TUID;
         END
 
         -- Get Store ID
