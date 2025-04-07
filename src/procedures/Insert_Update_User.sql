@@ -14,6 +14,9 @@ GO
 -- Refactored: 3/29/2025
 -- Ran transactions when inserting into 2 seperate tables due to failures.
 -- Ensures that either both operations succeed or none does.
+-- 
+-- Refactor: 4/7/2025
+-- Removed the inserting store access (no store name parameter)
 -- =============================================
 CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_User]
 (
@@ -23,7 +26,6 @@ CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_User]
     @EMAIL VARCHAR(320) = NULL,
     @PASSWORD VARCHAR(100) = NULL,
     @ROLE_NAME VARCHAR(100) = NULL,
-    @STORE_NAME VARCHAR(100) = NULL,
     @ACTIVE BIT = 1
 )
 AS
@@ -79,35 +81,6 @@ BEGIN
             WHERE TUID = @TUID;
 
             SET @USER_TUID = @TUID;
-        END
-
-        -- Get Store ID
-        SET @STORE_TUID = (
-			SELECT TUID 
-			FROM Stores 
-			WHERE NAME = @STORE_NAME
-		);
-
-        -- Check if user-store association already exists
-        SET @RESULT_SET = (
-			SELECT COUNT(*) 
-			FROM Access 
-			WHERE USER_TUID = @USER_TUID AND STORE_TUID = @STORE_TUID
-		);
-
-        -- Insert into Access table if not exists
-        IF @RESULT_SET = 0
-        BEGIN
-            INSERT INTO [dbo].[Access] 
-			(
-				USER_TUID, 
-				STORE_TUID
-			) 
-			VALUES 
-			(
-				@USER_TUID, 
-				@STORE_TUID
-			);
         END
 
         COMMIT TRANSACTION;
