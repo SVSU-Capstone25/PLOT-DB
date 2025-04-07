@@ -10,7 +10,7 @@ i=0
 
 while [[ $DBSTATUS -ne 0 ]] && [[ $i -lt 60 ]] && [[ $ERRCODE -ne 0 ]]; do
   i=$((i+1))
-  DBSTATUS=$(/opt/mssql-tools18/bin/sqlcmd -S localhost,1433 -U sa -P "$MSSQL_SA_PASSWORD" -C -Q "SET NOCOUNT ON; SELECT SUM(state) FROM sys.databases WHERE state_desc = 'ONLINE'" -h -1 -t 1 | tr -d '[:space:]')
+  DBSTATUS=$(/opt/mssql-tools18/bin/sqlcmd -S database,1433 -U sa -P "$MSSQL_SA_PASSWORD" -C -Q "SET NOCOUNT ON; SELECT SUM(state) FROM sys.databases WHERE state_desc = 'ONLINE'" -h -1 -t 1 | tr -d '[:space:]')
   ERRCODE=$?
   sleep 1
 done
@@ -22,7 +22,7 @@ fi
 
 # Ensure the target database exists
 echo "Ensuring the database $DB_NAME exists..."
-/opt/mssql-tools18/bin/sqlcmd -S localhost,1433 -U sa -P "$MSSQL_SA_PASSWORD" -C -Q "IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = '$DB_NAME') CREATE DATABASE [$DB_NAME];"
+/opt/mssql-tools18/bin/sqlcmd -S database,1433 -U sa -P "$MSSQL_SA_PASSWORD" -C -Q "IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = '$DB_NAME') CREATE DATABASE [$DB_NAME];"
 if [ $? -ne 0 ]; then
   echo "Failed to create or verify the database $DB_NAME. Exiting."
   exit 1
@@ -43,7 +43,7 @@ run_sql_scripts() {
   if compgen -G "$dir/*.sql" > /dev/null; then
     for file in "$dir"/*.sql; do
       echo "Executing $file..."
-      /opt/mssql-tools18/bin/sqlcmd -S localhost,1433 -U sa -P "$MSSQL_SA_PASSWORD" -C -d "$DB_NAME" -i "$file"
+      /opt/mssql-tools18/bin/sqlcmd -S database,1433 -U sa -P "$MSSQL_SA_PASSWORD" -C -d "$DB_NAME" -i "$file"
       if [ $? -ne 0 ]; then
         echo "Error executing $file. Exiting."
         exit 1
@@ -64,7 +64,7 @@ run_sql_scripts "/usr/config/src/procedures"
 run_sql_scripts "/usr/config/src/triggers"
 
 echo "\nSeeding database..."
-/opt/mssql-tools18/bin/sqlcmd -S localhost,1433 -U sa -P "$MSSQL_SA_PASSWORD" -C -d "$DB_NAME" -i "/usr/config/src/seed.sql"
+/opt/mssql-tools18/bin/sqlcmd -S database,1433 -U sa -P "$MSSQL_SA_PASSWORD" -C -d "$DB_NAME" -i "/usr/config/src/seed.sql"
 
 # Final message
 echo -e "\nDatabase initialization complete."
