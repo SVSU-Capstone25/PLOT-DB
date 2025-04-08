@@ -299,7 +299,7 @@ CREATE TABLE [dbo].[Floorsets_Fixtures](
 	[ALLOCATED_LF] [decimal](10, 2) NULL,
 	[SUBCATEGORY] [varchar](100) NULL,
 	[NOTE] [varchar](1000) NULL,
-	[SUPERCATEGORY_TUID] [int] NOT NULL,
+	[SUPERCATEGORY_TUID] [int] NULL,
 	[EDITOR_ID] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
