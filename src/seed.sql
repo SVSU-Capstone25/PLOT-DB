@@ -10,8 +10,8 @@
 INSERT INTO Supercategories
 ([NAME],[COLOR])
 VALUES
-('Men''s', 'blue'),
-('Women''s', 'pink'),
+('Mens', 'blue'),
+('Womens', 'pink'),
 ('Accessories', 'green');
 
 INSERT INTO Roles 
