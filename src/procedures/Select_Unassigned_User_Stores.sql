@@ -22,7 +22,14 @@ BEGIN
 	BEGIN
 		SELECT
 			s.TUID,
-			s.NAME
+			s.NAME,
+			s.ADDRESS,
+			s.CITY,
+			s.STATE,
+			s.ZIP,
+			s.WIDTH,
+			s.LENGTH,
+			s.BLUEPRINT_IMAGE
 		FROM Users u
 		CROSS JOIN Stores s
 		LEFT JOIN Access a 
