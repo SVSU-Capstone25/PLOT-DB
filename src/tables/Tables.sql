@@ -21,6 +21,7 @@ SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 GO
 
+DROP TABLE IF EXISTS [dbo].[Supercategories];
 CREATE TABLE [dbo].[Supercategories](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[NAME] [varchar](100) NULL,
@@ -50,6 +51,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+DROP TABLE IF EXISTS [dbo].[Roles];
 CREATE TABLE [dbo].[Roles](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[NAME] [varchar](100) NOT NULL,
@@ -76,6 +78,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+DROP TABLE IF EXISTS [dbo].[Stores];
 CREATE TABLE [dbo].[Stores](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[NAME] [varchar](100) NOT NULL,
@@ -119,6 +122,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+DROP TABLE IF EXISTS [dbo].[Users];
 CREATE TABLE [dbo].[Users](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[FIRST_NAME] [varchar](747) NOT NULL,
@@ -160,6 +164,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+DROP TABLE IF EXISTS [dbo].[Acess];
 CREATE TABLE [dbo].[Access](
 	[USER_TUID] [int] NOT NULL,
 	[STORE_TUID] [int] NOT NULL,
@@ -201,12 +206,13 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+DROP TABLE IF EXISTS [dbo].[Fixtures];
 CREATE TABLE [dbo].[Fixtures](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[NAME] [varchar](100) NOT NULL,
 	[WIDTH] [int] NOT NULL,
 	[LENGTH] [int] NOT NULL,
-	[LF_CAP] [decimal](10, 2) NOT NULL,
+	[LF_CAP] [int] NOT NULL,
 	[ICON] [varbinary](max) NOT NULL,
 	[STORE_TUID] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
@@ -244,6 +250,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+DROP TABLE IF EXISTS [dbo].[Floorsets];
 CREATE TABLE [dbo].[Floorsets](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[NAME] [varchar](100) NOT NULL,
@@ -288,18 +295,20 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+DROP TABLE IF EXISTS [dbo].[Floorsets_Fixtures];
+-- TODO: Go through and figure out what should and shouldn't be NULL
 CREATE TABLE [dbo].[Floorsets_Fixtures](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[FLOORSET_TUID] [int] NOT NULL,
 	[FIXTURE_TUID] [int] NOT NULL,
-	[X_POS] [decimal](9, 6) NOT NULL,
-	[Y_POS] [decimal](9, 6) NOT NULL,
-	[HANGER_STACK] [int] NOT NULL,
-	[TOT_LF] [decimal](10, 2) NOT NULL,
-	[ALLOCATED_LF] [decimal](10, 2) NULL,
+	[X_POS] [int] NOT NULL,
+	[Y_POS] [int] NOT NULL,
+	[HANGER_STACK] [int] NULL,
+	[TOT_LF] [int] NULL,
+	[ALLOCATED_LF] [int] NULL,
 	[SUBCATEGORY] [varchar](100) NULL,
 	[NOTE] [varchar](1000) NULL,
-	[SUPERCATEGORY_TUID] [int] NOT NULL,
+	[SUPERCATEGORY_TUID] [int] NULL,
 	[EDITOR_ID] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -343,6 +352,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+DROP TABLE IF EXISTS [dbo].[Sales];
 CREATE TABLE [dbo].[Sales](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[FILENAME] [varchar](100) NOT NULL,
@@ -385,6 +395,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+DROP TABLE IF EXISTS [dbo].[Sales_Allocation];
 CREATE TABLE [dbo].[Sales_Allocation](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[SUPERCATEGORY_TUID] [int] NOT NULL,
