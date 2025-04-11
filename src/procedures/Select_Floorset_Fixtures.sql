@@ -43,8 +43,8 @@ BEGIN
         Floorsets_Fixtures.NOTE, 
         SuperCategories.NAME AS SUPERCATEGORY_NAME, 
         SuperCategories.TUID AS SUPERCATEGORY_TUID,
-        Unique_Sales_Allocation.SUBCATEGORY, 
-        Unique_Sales_Allocation.TOTAL_SALES, 
+        Sales_Allocation.SUBCATEGORY, 
+        Sales_Allocation.TOTAL_SALES, 
         SuperCategories.COLOR,
         Floorsets_Fixtures.EDITOR_ID
     FROM Floorsets_Fixtures 
