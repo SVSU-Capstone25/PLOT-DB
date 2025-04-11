@@ -46,7 +46,7 @@ BEGIN
 				@STORE_TUID
 			)
 			
-			SELECT 'OK 200' As Response;
+			SELECT 200 As Response;
 		END TRY
 		BEGIN CATCH
 			-- Handle errors
@@ -61,5 +61,3 @@ BEGIN
 	END
 END;
 GO
-
-

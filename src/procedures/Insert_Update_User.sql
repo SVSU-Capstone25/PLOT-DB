@@ -18,6 +18,70 @@ GO
 -- Refactor: 4/7/2025
 -- Removed the inserting store access (no store name parameter)
 -- =============================================
+
+CREATE OR ALTER PROCEDURE [dbo].[Insert_User]
+(
+    @TUID INT = NULL,
+    @FIRST_NAME VARCHAR(747) = NULL,
+    @LAST_NAME VARCHAR(747) = NULL,
+    @EMAIL VARCHAR(320) = NULL,
+    @PASSWORD VARCHAR(100) = NULL,
+    @ROLE_NAME VARCHAR(100) = NULL,
+    @ACTIVE BIT = 1
+)
+AS
+BEGIN
+    INSERT INTO [dbo].[Users] 
+    (
+        FIRST_NAME, 
+        LAST_NAME, 
+        EMAIL, 
+        PASSWORD, 
+        ROLE_TUID, 
+        ACTIVE
+    )
+    VALUES 
+    (
+        @FIRST_NAME, 
+        @LAST_NAME, 
+        @EMAIL, 
+        @PASSWORD, 
+        @ROLE_TUID, 
+        @ACTIVE
+    );
+    
+    -- Get newly inserted user ID
+    SET @USER_TUID = SCOPE_IDENTITY();
+    SELECT 200 AS Response;
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[Update_User]
+(
+    @TUID INT,
+    @FIRST_NAME VARCHAR(747) = NULL,
+    @LAST_NAME VARCHAR(747) = NULL,
+    @EMAIL VARCHAR(320) = NULL,
+    @PASSWORD VARCHAR(100) = NULL,
+    @ROLE_NAME VARCHAR(100) = NULL,
+    @ACTIVE BIT = 1
+)
+AS
+BEGIN
+    -- This only update the fields that are provided (not NULL)
+    UPDATE [dbo].[Users]
+    SET 
+        FIRST_NAME = COALESCE(@FIRST_NAME, FIRST_NAME), 
+        LAST_NAME = COALESCE(@LAST_NAME, LAST_NAME), 
+        EMAIL = COALESCE(@EMAIL, EMAIL), 
+        PASSWORD = COALESCE(@PASSWORD, PASSWORD), 
+        ROLE_TUID = COALESCE(@ROLE_TUID, ROLE_TUID), 
+        ACTIVE = COALESCE(@ACTIVE, ACTIVE)
+    WHERE TUID = @TUID;
+END
+GO
+
+
 CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_User]
 (
     @TUID INT = NULL,
@@ -45,50 +109,19 @@ BEGIN
         -- Insert or update user
         IF @TUID IS NULL
         BEGIN
-            INSERT INTO [dbo].[Users] 
-			(
-				FIRST_NAME, 
-				LAST_NAME, 
-				EMAIL, 
-				PASSWORD, 
-				ROLE_TUID, 
-				ACTIVE
-			)
-            VALUES 
-			(
-				@FIRST_NAME, 
-				@LAST_NAME, 
-				@EMAIL, 
-				@PASSWORD, 
-				@ROLE_TUID, 
-				@ACTIVE
-			);
-            
-            -- Get newly inserted user ID
-            SET @USER_TUID = SCOPE_IDENTITY();
+            EXEC [dbo].[Insert_User] @FIRST_NAME, @LAST_NAME, @EMAIL, @PASSWORD, @ROLE_TUID
         END
         ELSE
         BEGIN
-			-- This only update the fields that are provided (not NULL)
-            UPDATE [dbo].[Users]
-            SET 
-				FIRST_NAME = COALESCE(@FIRST_NAME, FIRST_NAME), 
-                LAST_NAME = COALESCE(@LAST_NAME, LAST_NAME), 
-                EMAIL = COALESCE(@EMAIL, EMAIL), 
-                PASSWORD = COALESCE(@PASSWORD, PASSWORD), 
-                ROLE_TUID = COALESCE(@ROLE_TUID, ROLE_TUID), 
-                ACTIVE = COALESCE(@ACTIVE, ACTIVE)
-            WHERE TUID = @TUID;
-
-            SET @USER_TUID = @TUID;
+			EXEC [dbo].[Update_User] @TUID, @FIRST_NAME, @LAST_NAME, @EMAIL, @PASSWORD, @ROLE_TUID
         END
 
         COMMIT TRANSACTION;
-        SELECT 'OK 200' AS Response;
+        SELECT 200 AS Response;
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        SELECT 'ERROR 500' AS Response, ERROR_MESSAGE() AS ErrorDetails;
+        SELECT 500 AS Response, ERROR_MESSAGE() AS ErrorDetails;
     END CATCH;
 END;
 GO
