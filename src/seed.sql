@@ -10,9 +10,10 @@
 INSERT INTO Supercategories
 ([NAME],[COLOR])
 VALUES
-('Mens', 'blue'),
-('Womens', 'pink'),
-('Accessories', 'green');
+('None', '#FFFFFF'),
+('Mens', '#AAD9FF'),
+('Womens', '#FFAAD6'),
+('Accessories', '#5FBD6A');
 
 INSERT INTO Roles 
 ([NAME])
@@ -24,9 +25,9 @@ VALUES
 INSERT INTO Stores 
 ([NAME], [ADDRESS], [CITY], [STATE], [ZIP], [WIDTH], [LENGTH], [BLUEPRINT_IMAGE])
 VALUES
-('Pato''s Closet Saginaw', '5206 Bay Rd', 'Saginaw','MI', '48604', 85, 65, 0x01020304),
-('Pato''s Closet Flint', '3192 S Linden Rd', 'Flint', 'MI', '48507-3004', 75, 75, 0x01020304),
-('Pato''s Closet Dallas', '8430 Abrams Rd', 'Dallas', 'TX', '75243', 95, 55, 0x01020304);
+('Plato''s Closet Saginaw', '5206 Bay Rd', 'Saginaw','MI', '48604', 85, 70, 0x01020304),
+('Plato''s Closet Flint', '3192 S Linden Rd', 'Flint', 'MI', '48507-3004', 75, 75, 0x01020304),
+('Plato''s Closet Dallas', '8430 Abrams Rd', 'Dallas', 'TX', '75243', 70, 95, 0x01020304);
 
 INSERT INTO Fixtures 
 ([NAME], [WIDTH], [LENGTH], [LF_CAP], [ICON], [STORE_TUID])
@@ -54,8 +55,8 @@ VALUES
 (2,2,20,20,2,40,30,'Bottoms Denim', 'Testing Notes Column', 1, 1),
 (3,3,30,15,1,18,17,'Athleticwear Pants', 'Testing Notes Column', 1, 1),
 (4,4,60,30,3,30,28,'Suits','Testing Notes Column', 1, 1),
-(5,5,95,63,4,100,87,'Hats','Testing Notes Column', 1, 1),
-(5,6,70,30,3,45,45,'Bottoms Khaki','Testing Notes Column', 1, 2),
+(5,5,30,60,4,100,87,'Hats','Testing Notes Column', 1, 1),
+(5,6,60,30,3,45,45,'Bottoms Khaki','Testing Notes Column', 1, 2),
 (5,7,18,23,1,20,4,'Belts', 'Testing Notes Column', 3, 3);
 
 -- All passwords are "password"
