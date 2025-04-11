@@ -45,7 +45,7 @@ BEGIN
             WHERE TUID = @STORE_TUID;
 
             -- Successful response
-            SELECT 'OK 200' AS Response;
+            SELECT 200 AS Response;
         END
 
         ELSE

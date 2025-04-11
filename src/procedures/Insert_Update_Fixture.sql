@@ -14,13 +14,64 @@ GO
 -- Update: 4/2/2025
 -- By: Andrew Miller
 -- Description: Changed "height" to "length"
+CREATE OR ALTER PROCEDURE [dbo].[Insert_Fixture]
+(
+	@TUID INT = NULL,
+	@NAME VARCHAR(100) = NULL,
+	@WIDTH INT = NULL,
+	@LENGTH INT = NULL,
+	@ICON VARBINARY(MAX) = NULL,
+	@STORE_TUID INT = NULL
+)
+AS
+BEGIN
+	INSERT INTO [dbo].[Fixtures]
+	(
+		NAME,
+		WIDTH,
+		LENGTH,
+		ICON,
+		STORE_TUID
+	)
+	VALUES
+	(
+		@NAME,
+		@WIDTH,
+		@LENGTH,
+		@ICON,
+		@STORE_TUID
+	) 
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[Update_Fixture]
+(
+	@TUID INT = NULL,
+	@NAME VARCHAR(100) = NULL,
+	@WIDTH INT = NULL,
+	@LENGTH INT = NULL,
+	@ICON VARBINARY(MAX) = NULL,
+	@STORE_TUID INT = NULL
+)
+AS
+BEGIN
+	UPDATE [dbo].[Fixtures]
+	SET
+		NAME = COALESCE(@NAME, NAME),
+		WIDTH = COALESCE(@WIDTH, WIDTH),
+		LENGTH = COALESCE(@LENGTH, LENGTH),
+		ICON = COALESCE(@ICON, ICON),
+		STORE_TUID = COALESCE(@STORE_TUID, STORE_TUID)
+	WHERE TUID = @TUID
+END
+GO
+
 CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Fixture]
 (
 	@TUID INT = NULL,
 	@NAME VARCHAR(100) = NULL,
 	@WIDTH INT = NULL,
 	@LENGTH INT = NULL,
-	@LF_CAP DECIMAL(10,2) = NULL,
 	@ICON VARBINARY(MAX) = NULL,
 	@STORE_TUID INT = NULL
 )
@@ -29,43 +80,18 @@ BEGIN
 BEGIN TRY
 	IF @TUID IS NULL
 		BEGIN
-			INSERT INTO [dbo].[Fixtures]
-			(
-				NAME,
-				WIDTH,
-				LENGTH,
-				LF_CAP,
-				ICON,
-				STORE_TUID
-			)
-			VALUES
-			(
-				@NAME,
-				@WIDTH,
-				@LENGTH,
-				@LF_CAP,
-				@ICON,
-				@STORE_TUID
-			) 
-			SELECT 'OK 200' AS Response
+			EXEC [dbo].[Insert_Fixture] @NAME, @WIDTH, @LENGTH, @ICON, @STORE_TUID
 		END
 	ELSE
 		BEGIN
-			UPDATE [dbo].[Fixtures]
-			SET
-				NAME = @NAME,
-				WIDTH = @WIDTH,
-				LENGTH = @LENGTH,
-				LF_CAP = @LF_CAP,
-				ICON = @ICON,
-				STORE_TUID = @STORE_TUID
-			WHERE TUID = @TUID
-			SELECT 'OK 200' AS Response
+			EXEC [dbo].[Update_Fixture] @TUID, @NAME, @WIDTH, @LENGTH, @ICON, @STORE_TUID
 		END
+
+	SELECT 200 AS Response
 	END TRY
 	BEGIN CATCH
         -- If insert fails, return ERROR 500
-        SELECT 'ERROR 500' AS Response, ERROR_MESSAGE() AS ErrorDetails;
+        SELECT 500 AS Response, ERROR_MESSAGE() AS ErrorDetails;
     END CATCH;
 END
 GO

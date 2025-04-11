@@ -35,7 +35,7 @@ BEGIN
 			DELETE FROM access
 			WHERE USER_TUID = @USER_TUID AND STORE_TUID = @STORE_TUID
 			
-			SELECT 'OK 200' As Response;
+			SELECT 200 As Response;
 		END TRY
 		BEGIN CATCH
 			-- Handle errors

@@ -22,9 +22,9 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[Supercategories](
-	[TUID] [int] IDENTITY(1,1) NOT NULL,
-	[NAME] [varchar](100) NULL,
-	[COLOR] [varchar](100) NULL,
+	[TUID] [int] IDENTITY(0,1) NOT NULL,
+	[NAME] [varchar](100) NOT NULL,
+	[COLOR] [varchar](100) NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[TUID] ASC
@@ -83,8 +83,8 @@ CREATE TABLE [dbo].[Stores](
 	[CITY] [varchar](100) NOT NULL,
 	[STATE] [varchar](25) NOT NULL,
 	[ZIP] [varchar](10) NOT NULL,
-	[WIDTH] [int] NULL,
-	[LENGTH] [int] NULL,
+	[WIDTH] [int] NOT NULL,
+	[LENGTH] [int] NOT NULL,
 	[BLUEPRINT_IMAGE] [varbinary](max) NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -125,7 +125,7 @@ CREATE TABLE [dbo].[Users](
 	[LAST_NAME] [varchar](747) NOT NULL,
 	[EMAIL] [varchar](320) NOT NULL,
 	[PASSWORD] [varchar](100) NOT NULL,
-	[ROLE_TUID] [int] NULL,
+	[ROLE_TUID] [int] NOT NULL,
 	[ACTIVE] [bit] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -206,7 +206,7 @@ CREATE TABLE [dbo].[Fixtures](
 	[NAME] [varchar](100) NOT NULL,
 	[WIDTH] [int] NOT NULL,
 	[LENGTH] [int] NOT NULL,
-	[LF_CAP] [decimal](10, 2) NOT NULL,
+	[LF_CAP] AS (WIDTH * LENGTH),
 	[ICON] [varbinary](max) NOT NULL,
 	[STORE_TUID] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
@@ -288,18 +288,18 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+-- TODO: Go through and figure out what should and shouldn't be NULL
 CREATE TABLE [dbo].[Floorsets_Fixtures](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[FLOORSET_TUID] [int] NOT NULL,
 	[FIXTURE_TUID] [int] NOT NULL,
-	[X_POS] [decimal](9, 6) NOT NULL,
-	[Y_POS] [decimal](9, 6) NOT NULL,
-	[HANGER_STACK] [int] NOT NULL,
-	[TOT_LF] [decimal](10, 2) NOT NULL,
-	[ALLOCATED_LF] [decimal](10, 2) NULL,
+	[X_POS] [int] NOT NULL,
+	[Y_POS] [int] NOT NULL,
+	[HANGER_STACK] [int] NULL,
+	[ALLOCATED_LF] [int] NULL,
 	[SUBCATEGORY] [varchar](100) NULL,
 	[NOTE] [varchar](1000) NULL,
-	[SUPERCATEGORY_TUID] [int] NOT NULL,
+	[SUPERCATEGORY_TUID] [int] NULL,
 	[EDITOR_ID] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -309,6 +309,9 @@ PRIMARY KEY CLUSTERED
 GO
 
 ALTER TABLE [dbo].[Floorsets_Fixtures] ADD  DEFAULT ('') FOR [NOTE]
+GO
+
+ALTER TABLE [dbo].[Floorsets_Fixtures] ADD  DEFAULT (0) FOR [SUPERCATEGORY_TUID]
 GO
 
 ALTER TABLE [dbo].[Floorsets_Fixtures]  WITH CHECK ADD FOREIGN KEY([FIXTURE_TUID])
@@ -349,7 +352,7 @@ CREATE TABLE [dbo].[Sales](
 	[FILEDATA] [varbinary](max) NOT NULL,
 	[CAPTURE_DATE] [datetime] NOT NULL,
 	[DATE_UPLOADED] [datetime] NOT NULL,
-	[FLOORSET_TUID] [int] NULL,
+	[FLOORSET_TUID] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[TUID] ASC
@@ -388,9 +391,9 @@ GO
 CREATE TABLE [dbo].[Sales_Allocation](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[SUPERCATEGORY_TUID] [int] NOT NULL,
-	[SUBCATEGORY] [varchar](100) NULL,
-	[TOTAL_SALES] [int] NULL,
-	[SALES_TUID] [int] NULL,
+	[SUBCATEGORY] [varchar](100) NOT NULL,
+	[TOTAL_SALES] [int] NOT NULL,
+	[SALES_TUID] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[TUID] ASC
