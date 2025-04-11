@@ -296,7 +296,6 @@ CREATE TABLE [dbo].[Floorsets_Fixtures](
 	[X_POS] [int] NOT NULL,
 	[Y_POS] [int] NOT NULL,
 	[HANGER_STACK] [int] NULL,
-	--[TOT_LF] [int] NOT NULL,
 	[ALLOCATED_LF] [int] NULL,
 	[SUBCATEGORY] [varchar](100) NULL,
 	[NOTE] [varchar](1000) NULL,

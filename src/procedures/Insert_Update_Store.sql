@@ -32,6 +32,7 @@ Reasoning: Changed "Height" to "Length" for stores
 */
 
 CREATE OR ALTER PROCEDURE [dbo].[Insert_Store] (
+	@TUID INT = NULL,
     @NAME VARCHAR(100) = NULL,
     @ADDRESS VARCHAR(100) = NULL,
     @CITY VARCHAR(100) = NULL,
@@ -148,7 +149,7 @@ BEGIN
     	END
 		ELSE 
     	BEGIN
-			EXEC [dbo].[Update_Store] @NAME, @ADDRESS, @CITY, @STATE, @ZIP, @WIDTH, @LENGTH, @BLUEPRINT_IMAGE
+			EXEC [dbo].[Update_Store] @TUID, @NAME, @ADDRESS, @CITY, @STATE, @ZIP, @WIDTH, @LENGTH, @BLUEPRINT_IMAGE
     	END
 
 		--Return the newly inserted store TUID
