@@ -15,7 +15,7 @@ GO
 -- Description: Removed USE [sqlpreview] statement. Caused bugs when testing locally.
 -- While it doesn't appear to have caused bugs in Docker, since it was accepted into main before,
 -- it wouldn't have a functional role to play, and risks introducing bugs in the future.
-CREATE PROCEDURE [dbo].[Insert_Update_Sales_File]
+CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Sales_File]
 (
     @TUID INT = NULL,
 	@FILE_NAME VARCHAR(100) = NULL,
@@ -36,23 +36,23 @@ BEGIN
 			INSERT INTO Sales(FILENAME,FILEDATA,CAPTURE_DATE,DATE_UPLOADED,FLOORSET_TUID) 
 			VALUES (@FILE_NAME,@FILE_DATA,@CAPTURE_DATE,@DATE_UPLOADED,@FLOORSET_TUID);
 
-			SELECT 'OK 200' AS Response;
+			SELECT 200 AS Response;
 		END
 		
 	ELSE
 		BEGIN
 			UPDATE Sales 
-			SET FILENAME=@FILE_NAME,
-				FILEDATA=@FILE_DATA
-			WHERE TUID=@ID
+			SET FILENAME = COALESCE(@FILE_NAME, FILENAME)
+				FILEDATA = COALESCE(@FILE_DATA, FILEDATA)
+			WHERE TUID=@TUID
 			
-			SELECT 'OK 200' AS Response;
+			SELECT 200 AS Response;
 		END
 	END TRY
 
     BEGIN CATCH
         -- If insert fails, return ERROR 500
-        SELECT 'ERROR 500' AS Response, ERROR_MESSAGE() AS ErrorDetails;
+        SELECT 500 AS Response, ERROR_MESSAGE() AS ErrorDetails;
     END CATCH;
 
 END

@@ -26,7 +26,7 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		SELECT 'Error 500' AS Response
+		SELECT 500 AS Response
 	END
 END
 GO

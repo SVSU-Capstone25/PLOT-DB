@@ -39,7 +39,7 @@ BEGIN
         Floorsets_Fixtures.Y_POS, 
         Floorsets_Fixtures.HANGER_STACK,
         Floorsets_Fixtures.ALLOCATED_LF, 
-        Floorsets_Fixtures.TOT_LF, 
+        (Floorsets_Fixtures.HANGER_STACK * Fixtures.LF_CAP) AS TOT_LF, 
         Floorsets_Fixtures.NOTE, 
         SuperCategories.NAME AS SUPERCATEGORY_NAME, 
         SuperCategories.TUID AS SUPERCATEGORY_TUID,

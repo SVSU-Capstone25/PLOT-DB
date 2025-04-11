@@ -21,11 +21,10 @@ SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 GO
 
-DROP TABLE IF EXISTS [dbo].[Supercategories];
 CREATE TABLE [dbo].[Supercategories](
-	[TUID] [int] IDENTITY(1,1) NOT NULL,
-	[NAME] [varchar](100) NULL,
-	[COLOR] [varchar](100) NULL,
+	[TUID] [int] IDENTITY(0,1) NOT NULL,
+	[NAME] [varchar](100) NOT NULL,
+	[COLOR] [varchar](100) NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[TUID] ASC
@@ -51,7 +50,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-DROP TABLE IF EXISTS [dbo].[Roles];
 CREATE TABLE [dbo].[Roles](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[NAME] [varchar](100) NOT NULL,
@@ -78,7 +76,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-DROP TABLE IF EXISTS [dbo].[Stores];
 CREATE TABLE [dbo].[Stores](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[NAME] [varchar](100) NOT NULL,
@@ -86,8 +83,8 @@ CREATE TABLE [dbo].[Stores](
 	[CITY] [varchar](100) NOT NULL,
 	[STATE] [varchar](25) NOT NULL,
 	[ZIP] [varchar](10) NOT NULL,
-	[WIDTH] [int] NULL,
-	[LENGTH] [int] NULL,
+	[WIDTH] [int] NOT NULL,
+	[LENGTH] [int] NOT NULL,
 	[BLUEPRINT_IMAGE] [varbinary](max) NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -122,14 +119,13 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-DROP TABLE IF EXISTS [dbo].[Users];
 CREATE TABLE [dbo].[Users](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[FIRST_NAME] [varchar](747) NOT NULL,
 	[LAST_NAME] [varchar](747) NOT NULL,
 	[EMAIL] [varchar](320) NOT NULL,
 	[PASSWORD] [varchar](100) NOT NULL,
-	[ROLE_TUID] [int] NULL,
+	[ROLE_TUID] [int] NOT NULL,
 	[ACTIVE] [bit] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -164,7 +160,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-DROP TABLE IF EXISTS [dbo].[Acess];
 CREATE TABLE [dbo].[Access](
 	[USER_TUID] [int] NOT NULL,
 	[STORE_TUID] [int] NOT NULL,
@@ -206,13 +201,12 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-DROP TABLE IF EXISTS [dbo].[Fixtures];
 CREATE TABLE [dbo].[Fixtures](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[NAME] [varchar](100) NOT NULL,
 	[WIDTH] [int] NOT NULL,
 	[LENGTH] [int] NOT NULL,
-	[LF_CAP] [int] NOT NULL,
+	[LF_CAP] AS (WIDTH * LENGTH),
 	[ICON] [varbinary](max) NOT NULL,
 	[STORE_TUID] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
@@ -250,7 +244,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-DROP TABLE IF EXISTS [dbo].[Floorsets];
 CREATE TABLE [dbo].[Floorsets](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[NAME] [varchar](100) NOT NULL,
@@ -295,7 +288,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-DROP TABLE IF EXISTS [dbo].[Floorsets_Fixtures];
 -- TODO: Go through and figure out what should and shouldn't be NULL
 CREATE TABLE [dbo].[Floorsets_Fixtures](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
@@ -304,7 +296,7 @@ CREATE TABLE [dbo].[Floorsets_Fixtures](
 	[X_POS] [int] NOT NULL,
 	[Y_POS] [int] NOT NULL,
 	[HANGER_STACK] [int] NULL,
-	[TOT_LF] [int] NULL,
+	--[TOT_LF] [int] NOT NULL,
 	[ALLOCATED_LF] [int] NULL,
 	[SUBCATEGORY] [varchar](100) NULL,
 	[NOTE] [varchar](1000) NULL,
@@ -318,6 +310,9 @@ PRIMARY KEY CLUSTERED
 GO
 
 ALTER TABLE [dbo].[Floorsets_Fixtures] ADD  DEFAULT ('') FOR [NOTE]
+GO
+
+ALTER TABLE [dbo].[Floorsets_Fixtures] ADD  DEFAULT (0) FOR [SUPERCATEGORY_TUID]
 GO
 
 ALTER TABLE [dbo].[Floorsets_Fixtures]  WITH CHECK ADD FOREIGN KEY([FIXTURE_TUID])
@@ -352,14 +347,13 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-DROP TABLE IF EXISTS [dbo].[Sales];
 CREATE TABLE [dbo].[Sales](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[FILENAME] [varchar](100) NOT NULL,
 	[FILEDATA] [varbinary](max) NOT NULL,
 	[CAPTURE_DATE] [datetime] NOT NULL,
 	[DATE_UPLOADED] [datetime] NOT NULL,
-	[FLOORSET_TUID] [int] NULL,
+	[FLOORSET_TUID] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[TUID] ASC
@@ -395,13 +389,12 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-DROP TABLE IF EXISTS [dbo].[Sales_Allocation];
 CREATE TABLE [dbo].[Sales_Allocation](
 	[TUID] [int] IDENTITY(1,1) NOT NULL,
 	[SUPERCATEGORY_TUID] [int] NOT NULL,
-	[SUBCATEGORY] [varchar](100) NULL,
-	[TOTAL_SALES] [int] NULL,
-	[SALES_TUID] [int] NULL,
+	[SUBCATEGORY] [varchar](100) NOT NULL,
+	[TOTAL_SALES] [int] NOT NULL,
+	[SALES_TUID] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[TUID] ASC

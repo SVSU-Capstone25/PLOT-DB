@@ -20,7 +20,7 @@ CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Fixture]
 	@NAME VARCHAR(100) = NULL,
 	@WIDTH INT = NULL,
 	@LENGTH INT = NULL,
-	@LF_CAP DECIMAL(10,2) = NULL,
+	--@LF_CAP DECIMAL(10,2) = NULL,
 	@ICON VARBINARY(MAX) = NULL,
 	@STORE_TUID INT = NULL
 )
@@ -34,7 +34,7 @@ BEGIN TRY
 				NAME,
 				WIDTH,
 				LENGTH,
-				LF_CAP,
+				--LF_CAP,
 				ICON,
 				STORE_TUID
 			)
@@ -43,29 +43,29 @@ BEGIN TRY
 				@NAME,
 				@WIDTH,
 				@LENGTH,
-				@LF_CAP,
+				--(@WIDTH * @LENGTH),
 				@ICON,
 				@STORE_TUID
 			) 
-			SELECT 'OK 200' AS Response
+			SELECT 200 AS Response
 		END
 	ELSE
 		BEGIN
 			UPDATE [dbo].[Fixtures]
 			SET
-				NAME = @NAME,
-				WIDTH = @WIDTH,
-				LENGTH = @LENGTH,
-				LF_CAP = @LF_CAP,
-				ICON = @ICON,
-				STORE_TUID = @STORE_TUID
+				NAME = COALESCE(@NAME, NAME),
+				WIDTH = COALESCE(@WIDTH, WIDTH),
+				LENGTH = COALESCE(@LENGTH, LENGTH),
+				--LF_CAP = COALESCE((@WIDTH * @LENGTH), LF_CAP),
+				ICON = COALESCE(@ICON, ICON),
+				STORE_TUID = COALESCE(@STORE_TUID, STORE_TUID)
 			WHERE TUID = @TUID
-			SELECT 'OK 200' AS Response
+			SELECT 200 AS Response
 		END
 	END TRY
 	BEGIN CATCH
         -- If insert fails, return ERROR 500
-        SELECT 'ERROR 500' AS Response, ERROR_MESSAGE() AS ErrorDetails;
+        SELECT 500 AS Response, ERROR_MESSAGE() AS ErrorDetails;
     END CATCH;
 END
 GO

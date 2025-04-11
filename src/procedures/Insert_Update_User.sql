@@ -84,11 +84,11 @@ BEGIN
         END
 
         COMMIT TRANSACTION;
-        SELECT 'OK 200' AS Response;
+        SELECT 200 AS Response;
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        SELECT 'ERROR 500' AS Response, ERROR_MESSAGE() AS ErrorDetails;
+        SELECT 500 AS Response, ERROR_MESSAGE() AS ErrorDetails;
     END CATCH;
 END;
 GO
