@@ -21,12 +21,12 @@ GO
 
 CREATE OR ALTER PROCEDURE [dbo].[Insert_User]
 (
-    @TUID INT = NULL,
+    --@TUID INT = NULL,
     @FIRST_NAME VARCHAR(747) = NULL,
     @LAST_NAME VARCHAR(747) = NULL,
     @EMAIL VARCHAR(320) = NULL,
     @PASSWORD VARCHAR(100) = NULL,
-    @ROLE_NAME VARCHAR(100) = NULL,
+    @ROLE_TUID INT,
     @ACTIVE BIT = 1
 )
 AS
@@ -51,8 +51,11 @@ BEGIN
     );
     
     -- Get newly inserted user ID
-    SET @USER_TUID = SCOPE_IDENTITY();
-    SELECT 200 AS Response;
+    -- SET @TUID = SCOPE_IDENTITY();
+    SET @OUT_TUID = SCOPE_IDENTITY();
+    --SELECT 200 AS Response UNION ALL SELECT @OUT_TUID AS TUID
+    --SELECT 200 AS Response;
+    SELECT 200 AS Response UNION ALL SELECT @OUT_TUID AS Response;
 END
 GO
 
@@ -63,7 +66,7 @@ CREATE OR ALTER PROCEDURE [dbo].[Update_User]
     @LAST_NAME VARCHAR(747) = NULL,
     @EMAIL VARCHAR(320) = NULL,
     @PASSWORD VARCHAR(100) = NULL,
-    @ROLE_NAME VARCHAR(100) = NULL,
+    @ROLE_TUID INT,
     @ACTIVE BIT = 1
 )
 AS
@@ -84,6 +87,7 @@ GO
 
 CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_User]
 (
+    -- @TUID INT = NULL,
     @TUID INT = NULL,
     @FIRST_NAME VARCHAR(747) = NULL,
     @LAST_NAME VARCHAR(747) = NULL,
@@ -109,15 +113,26 @@ BEGIN
         -- Insert or update user
         IF @TUID IS NULL
         BEGIN
-            EXEC [dbo].[Insert_User] @FIRST_NAME, @LAST_NAME, @EMAIL, @PASSWORD, @ROLE_TUID
+            -- Call Insert_User and capture the result (including TUID)
+            EXEC [dbo].[Insert_User] @FIRST_NAME, @LAST_NAME, @EMAIL, @PASSWORD, @ROLE_TUID, @ACTIVE;
+            
+            -- Capture the TUID from the inserted user
+            SET @NEW_TUID = SCOPE_IDENTITY();  -- This will get the TUID of the newly inserted user
+
+            -- Return 200 and the newly inserted TUID
+            SELECT 200 AS Response
+            UNION ALL
+            SELECT @NEW_TUID AS TUID;
         END
         ELSE
         BEGIN
-			EXEC [dbo].[Update_User] @TUID, @FIRST_NAME, @LAST_NAME, @EMAIL, @PASSWORD, @ROLE_TUID
+            EXEC [dbo].[Update_User] @TUID, @FIRST_NAME, @LAST_NAME, @EMAIL, @PASSWORD, @ROLE_TUID, @ACTIVE;
+
+            -- Return 200 as only update was done
+            SELECT 200 AS Response;
         END
 
         COMMIT TRANSACTION;
-        SELECT 200 AS Response;
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
