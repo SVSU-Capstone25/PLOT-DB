@@ -43,17 +43,18 @@ BEGIN
         Floorsets_Fixtures.NOTE, 
         SuperCategories.NAME AS SUPERCATEGORY_NAME, 
         SuperCategories.TUID AS SUPERCATEGORY_TUID,
-        Unique_Sales_Allocation.SUBCATEGORY, 
-        Unique_Sales_Allocation.TOTAL_SALES, 
+        Sales_Allocation.SUBCATEGORY, 
+        Sales_Allocation.TOTAL_SALES, 
         SuperCategories.COLOR,
         Floorsets_Fixtures.EDITOR_ID
     FROM Floorsets_Fixtures 
-    JOIN Fixtures 
-        ON Floorsets_Fixtures.FIXTURE_TUID = Fixtures.TUID
-    JOIN SuperCategories
-        ON Floorsets_Fixtures.SUPERCATEGORY_TUID = SuperCategories.TUID
-    LEFT JOIN Unique_Sales_Allocation
-        ON SuperCategories.TUID = Unique_Sales_Allocation.SUPERCATEGORY_TUID
+        JOIN Fixtures 
+            ON Floorsets_Fixtures.FIXTURE_TUID = Fixtures.TUID
+        JOIN Sales_Allocation
+            ON Floorsets_Fixtures.SUPERCATEGORY_TUID = Sales_Allocation.SUPERCATEGORY_TUID
+            AND Floorsets_Fixtures.SUBCATEGORY = Sales_Allocation.SUBCATEGORY
+        JOIN SuperCategories
+            ON Sales_Allocation.SUPERCATEGORY_TUID = SuperCategories.TUID
     WHERE Floorsets_Fixtures.FLOORSET_TUID = @FLOORSET_TUID
 END
 GO
