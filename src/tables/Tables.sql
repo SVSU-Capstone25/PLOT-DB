@@ -308,10 +308,13 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[Floorsets_Fixtures] ADD  DEFAULT ('') FOR [NOTE]
+ALTER TABLE [dbo].[Floorsets_Fixtures]
+	ADD CONSTRAINT UC_Floorsets_Fixtures UNIQUE (TUID, EDITOR_ID);
+
+ALTER TABLE [dbo].[Floorsets_Fixtures] ADD DEFAULT ('') FOR [NOTE]
 GO
 
-ALTER TABLE [dbo].[Floorsets_Fixtures] ADD  DEFAULT (0) FOR [SUPERCATEGORY_TUID]
+ALTER TABLE [dbo].[Floorsets_Fixtures] ADD DEFAULT (0) FOR [SUPERCATEGORY_TUID]
 GO
 
 ALTER TABLE [dbo].[Floorsets_Fixtures]  WITH CHECK ADD FOREIGN KEY([FIXTURE_TUID])

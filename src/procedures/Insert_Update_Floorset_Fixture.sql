@@ -21,7 +21,7 @@ GO
 -- =============================================
 CREATE OR ALTER PROCEDURE [dbo].[Insert_Floorset_Fixture]
 (
-	@TUID INT = NULL,
+
 	@FLOORSET_TUID INT,
 	@FIXTURE_TUID INT,
 	@EDITOR_ID INT,
@@ -127,6 +127,7 @@ BEGIN
 	ELSE
 		BEGIN
 			EXEC [dbo].[Update_Floorset_Fixture]
+				@TUID,
 				@FLOORSET_TUID,
 				@EDITOR_ID,
 				@XPOS,

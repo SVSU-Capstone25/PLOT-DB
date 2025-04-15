@@ -11,13 +11,15 @@ GO
 -- This select grabs all the allocation details for the allocations sidebar.
 -- =============================================
 
-CREATE OR ALTER PROCEDURE [dbo].[Select_Allocation_Fufillments]
+CREATE OR ALTER PROCEDURE [dbo].[Select_Allocation_Fulfillments]
 (
 	@FLOORSET_TUID INT
 )
 AS
 BEGIN
-	SELECT SA.SUBCATEGORY,
+	SELECT 
+        SA.SUPERCATEGORY_TUID,
+        SA.SUBCATEGORY,
         SC.COLOR AS SUPERCATEGORY_COLOR,
         SC.NAME AS SUPERCATEGORY_NAME,
         SA.TOTAL_SALES
