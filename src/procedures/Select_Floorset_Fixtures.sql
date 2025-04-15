@@ -50,9 +50,8 @@ BEGIN
     FROM Floorsets_Fixtures 
         JOIN Fixtures 
             ON Floorsets_Fixtures.FIXTURE_TUID = Fixtures.TUID
-        JOIN Sales_Allocation
+        JOIN Unique_Sales_Allocation
             ON Floorsets_Fixtures.SUPERCATEGORY_TUID = Sales_Allocation.SUPERCATEGORY_TUID
-            AND Floorsets_Fixtures.SUBCATEGORY = Sales_Allocation.SUBCATEGORY
         JOIN SuperCategories
             ON Sales_Allocation.SUPERCATEGORY_TUID = SuperCategories.TUID
     WHERE Floorsets_Fixtures.FLOORSET_TUID = @FLOORSET_TUID
