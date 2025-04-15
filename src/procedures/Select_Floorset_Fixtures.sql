@@ -18,16 +18,6 @@ CREATE OR ALTER PROCEDURE [dbo].[Select_Floorset_Fixtures]
 )
 AS
 BEGIN
-    ;WITH Unique_Sales_Allocation AS (
-        SELECT *
-        FROM Sales_Allocation
-        WHERE SUPERCATEGORY_TUID IN (
-            SELECT SUPERCATEGORY_TUID
-            FROM Sales_Allocation
-            GROUP BY SUPERCATEGORY_TUID
-            HAVING COUNT(*) = 1
-        )
-    )
     SELECT 
         Floorsets_Fixtures.TUID, 
         Floorsets_Fixtures.FIXTURE_TUID,
@@ -41,19 +31,16 @@ BEGIN
         Floorsets_Fixtures.ALLOCATED_LF, 
         (Floorsets_Fixtures.HANGER_STACK * Fixtures.LF_CAP) AS TOT_LF, 
         Floorsets_Fixtures.NOTE, 
+    	Floorsets_Fixtures.SUPERCATEGORY_TUID,
+        Floorsets_Fixtures.SUBCATEGORY,
         SuperCategories.NAME AS SUPERCATEGORY_NAME, 
-        SuperCategories.TUID AS SUPERCATEGORY_TUID,
-        Sales_Allocation.SUBCATEGORY, 
-        Sales_Allocation.TOTAL_SALES, 
         SuperCategories.COLOR,
         Floorsets_Fixtures.EDITOR_ID
-    FROM Floorsets_Fixtures 
+    FROM Floorsets_Fixtures
+    JOIN SuperCategories
+        ON Floorsets_Fixtures.SUPERCATEGORY_TUID = SuperCategories.TUID
         JOIN Fixtures 
             ON Floorsets_Fixtures.FIXTURE_TUID = Fixtures.TUID
-        JOIN Unique_Sales_Allocation
-            ON Floorsets_Fixtures.SUPERCATEGORY_TUID = Sales_Allocation.SUPERCATEGORY_TUID
-        JOIN SuperCategories
-            ON Sales_Allocation.SUPERCATEGORY_TUID = SuperCategories.TUID
     WHERE Floorsets_Fixtures.FLOORSET_TUID = @FLOORSET_TUID
 END
 GO
