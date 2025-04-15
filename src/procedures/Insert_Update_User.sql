@@ -17,20 +17,24 @@ GO
 -- 
 -- Refactor: 4/7/2025
 -- Removed the inserting store access (no store name parameter)
+-- 
+-- Refactor: 4/13/2025
+-- Added return of User TUID and fixed errors that were occuring on build.
 -- =============================================
 
 CREATE OR ALTER PROCEDURE [dbo].[Insert_User]
 (
-    @TUID INT = NULL,
     @FIRST_NAME VARCHAR(747) = NULL,
     @LAST_NAME VARCHAR(747) = NULL,
     @EMAIL VARCHAR(320) = NULL,
     @PASSWORD VARCHAR(100) = NULL,
-    @ROLE_NAME VARCHAR(100) = NULL,
+    @ROLE_TUID INT = NULL,
     @ACTIVE BIT = 1
 )
 AS
 BEGIN
+    DECLARE @USER_TUID INT
+
     INSERT INTO [dbo].[Users] 
     (
         FIRST_NAME, 
@@ -52,7 +56,7 @@ BEGIN
     
     -- Get newly inserted user ID
     SET @USER_TUID = SCOPE_IDENTITY();
-    SELECT 200 AS Response;
+    SELECT @USER_TUID AS USER_TUID;
 END
 GO
 
@@ -63,8 +67,8 @@ CREATE OR ALTER PROCEDURE [dbo].[Update_User]
     @LAST_NAME VARCHAR(747) = NULL,
     @EMAIL VARCHAR(320) = NULL,
     @PASSWORD VARCHAR(100) = NULL,
-    @ROLE_NAME VARCHAR(100) = NULL,
-    @ACTIVE BIT = 1
+    @ROLE_TUID INT = NULL,
+    @ACTIVE BIT
 )
 AS
 BEGIN
@@ -90,7 +94,7 @@ CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_User]
     @EMAIL VARCHAR(320) = NULL,
     @PASSWORD VARCHAR(100) = NULL,
     @ROLE_NAME VARCHAR(100) = NULL,
-    @ACTIVE BIT = 1
+    @ACTIVE BIT
 )
 AS
 BEGIN
@@ -113,11 +117,10 @@ BEGIN
         END
         ELSE
         BEGIN
-			EXEC [dbo].[Update_User] @TUID, @FIRST_NAME, @LAST_NAME, @EMAIL, @PASSWORD, @ROLE_TUID
+			EXEC [dbo].[Update_User] @TUID, @FIRST_NAME, @LAST_NAME, @EMAIL, @PASSWORD, @ROLE_TUID, @ACTIVE
         END
 
         COMMIT TRANSACTION;
-        SELECT 200 AS Response;
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
