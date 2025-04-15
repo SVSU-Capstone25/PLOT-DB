@@ -295,8 +295,8 @@ CREATE TABLE [dbo].[Floorsets_Fixtures](
 	[FIXTURE_TUID] [int] NOT NULL,
 	[X_POS] [int] NOT NULL,
 	[Y_POS] [int] NOT NULL,
-	[HANGER_STACK] [int] NULL,
-	[ALLOCATED_LF] [int] NULL,
+	[HANGER_STACK] [int] NOT NULL,
+	[ALLOCATED_LF] [int] NOT NULL,
 	[SUBCATEGORY] [varchar](100) NULL,
 	[NOTE] [varchar](1000) NULL,
 	[SUPERCATEGORY_TUID] [int] NULL,
@@ -315,6 +315,12 @@ ALTER TABLE [dbo].[Floorsets_Fixtures] ADD DEFAULT ('') FOR [NOTE]
 GO
 
 ALTER TABLE [dbo].[Floorsets_Fixtures] ADD DEFAULT (0) FOR [SUPERCATEGORY_TUID]
+GO
+
+ALTER TABLE [dbo].[Floorsets_Fixtures] ADD DEFAULT (1) FOR [HANGER_STACK]
+GO
+
+ALTER TABLE [dbo].[Floorsets_Fixtures] ADD DEFAULT (0) FOR [ALLOCATED_LF]
 GO
 
 ALTER TABLE [dbo].[Floorsets_Fixtures]  WITH CHECK ADD FOREIGN KEY([FIXTURE_TUID])
