@@ -424,3 +424,46 @@ GO
 
 ALTER TABLE [dbo].[Sales_Allocation] CHECK CONSTRAINT [FK_SalesAllocation_Supercategories]
 GO
+
+/*
+Filename: Employee_Area.sql
+Part of Project: PLOT/PLOT-DB/src/tables
+
+File Purpose:
+This file holds all the employee area allocations for given 
+floorsets.
+
+Written by: Zach Ventimiglia
+*/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Employee_Area](
+	[TUID] [int] IDENTITY(1,1) NOT NULL,
+	[FLOORSET_TUID] [int] NOT NULL,
+	[X_POS] [float] NOT NULL,
+	[Y_POS] [float] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[TUID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+ CONSTRAINT [UQ_FLOORSET_XY] UNIQUE NONCLUSTERED 
+(
+	[FLOORSET_TUID] ASC,
+	[X_POS] ASC,
+	[Y_POS] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Employee_Area]  WITH CHECK ADD  CONSTRAINT [FK_Floorset_Positions_Floorsets] FOREIGN KEY([FLOORSET_TUID])
+REFERENCES [dbo].[Floorsets] ([TUID])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[Employee_Area] CHECK CONSTRAINT [FK_Floorset_Positions_Floorsets]
+GO

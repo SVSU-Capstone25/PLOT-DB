@@ -102,3 +102,20 @@ VALUES
 ('Athleticwear Pants', 1, 819, 3),
 ('Bottoms Denim', 2, 3030, 3),
 ('Bottoms Khaki', 2, 515, 3);
+
+INSERT INTO Employee_Area 
+([FLOORSET_TUID], [X_POS], [Y_POS])
+VALUES
+(1,1,1),
+(1,1,2),
+(1,1,3),
+(1,2,1),
+(1,2,2),
+(1,2,3),
+(2,1,1),
+(2,1,2),
+(2,3,1),
+(2,2,1),
+(2,1,3),
+(3,2,1),
+(4,8,8)
