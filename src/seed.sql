@@ -97,12 +97,36 @@ VALUES
 
 INSERT INTO Sales_Allocation ([SUBCATEGORY], [SUPERCATEGORY_TUID], [TOTAL_SALES], [SALES_TUID])
 VALUES
+('Belts', 3, 155, 1),
+('Hats', 3, 207, 1),
+('Athleticwear Jackets', 1, 370, 1),
+('Athleticwear Pants', 1, 819, 1),
+('Bottoms Denim', 2, 3030, 1),
+('Bottoms Khaki', 2, 515, 1),
+('Belts', 3, 155, 2),
+('Hats', 3, 207, 2),
+('Athleticwear Jackets', 1, 370, 2),
+('Athleticwear Pants', 1, 819, 2),
+('Bottoms Denim', 2, 3030, 2),
+('Bottoms Khaki', 2, 515, 2),
 ('Belts', 3, 155, 3),
 ('Hats', 3, 207, 3),
 ('Athleticwear Jackets', 1, 370, 3),
 ('Athleticwear Pants', 1, 819, 3),
 ('Bottoms Denim', 2, 3030, 3),
-('Bottoms Khaki', 2, 515, 3);
+('Bottoms Khaki', 2, 515, 3),
+('Belts', 3, 155, 4),
+('Hats', 3, 207, 4),
+('Athleticwear Jackets', 1, 370, 4),
+('Athleticwear Pants', 1, 819, 4),
+('Bottoms Denim', 2, 3030, 4),
+('Bottoms Khaki', 2, 515, 4),
+('Belts', 3, 155, 5),
+('Hats', 3, 207, 5),
+('Athleticwear Jackets', 1, 370, 5),
+('Athleticwear Pants', 1, 819, 5),
+('Bottoms Denim', 2, 3030, 5),
+('Bottoms Khaki', 2, 515, 5);
 
 INSERT INTO Employee_Area 
 ([FLOORSET_TUID], [X_POS], [Y_POS])
