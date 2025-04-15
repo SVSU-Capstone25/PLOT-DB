@@ -18,3 +18,5 @@ IF OBJECT_ID('Roles', 'U') IS NOT NULL DROP TABLE [dbo].[Roles];
 GO
 IF OBJECT_ID('Supercategories', 'U') IS NOT NULL DROP TABLE [dbo].[Supercategories];
 GO
+IF OBJECT_ID('Employee_Area', 'U') IS NOT NULL DROP TABLE [dbo].[Employee_Area];
+GO
