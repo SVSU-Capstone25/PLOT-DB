@@ -304,6 +304,7 @@ CREATE TABLE [dbo].[Floorsets_Fixtures](
 	[NOTE] [varchar](1000) NULL,
 	[SUPERCATEGORY_TUID] [int] NULL,
 	[EDITOR_ID] [int] NOT NULL,
+	[FIXTURE_IDENTIFIER] [varchar](100) NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[TUID] ASC

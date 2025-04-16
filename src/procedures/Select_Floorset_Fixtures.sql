@@ -35,7 +35,8 @@ BEGIN
         Floorsets_Fixtures.SUBCATEGORY,
         SuperCategories.NAME AS SUPERCATEGORY_NAME, 
         SuperCategories.COLOR,
-        Floorsets_Fixtures.EDITOR_ID
+        Floorsets_Fixtures.EDITOR_ID,
+        Floorsets_Fixtures.FIXTURE_IDENTIFIER
     FROM Floorsets_Fixtures
     JOIN SuperCategories
         ON Floorsets_Fixtures.SUPERCATEGORY_TUID = SuperCategories.TUID
