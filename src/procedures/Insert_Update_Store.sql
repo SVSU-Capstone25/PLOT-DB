@@ -82,7 +82,7 @@ BEGIN
     IF @USER_TUIDS IS NOT NULL AND @USER_TUIDS <> ''
     BEGIN
         INSERT INTO Access (USER_TUID, STORE_TUID)
-        	SELECT VALUE, @TUID
+        	SELECT VALUE, @NEW_STORE_TUID
             FROM STRING_SPLIT(@USER_TUIDS, ',')
     END
 END
@@ -97,7 +97,8 @@ CREATE OR ALTER PROCEDURE [dbo].[Update_Store] (
     @ZIP VARCHAR(10) = NULL,
     @WIDTH INT = NULL,
     @LENGTH INT = NULL,
-    @BLUEPRINT_IMAGE VARBINARY(MAX) = NULL
+    @BLUEPRINT_IMAGE VARBINARY(MAX) = NULL,
+    @USER_TUIDS VARCHAR(MAX) = NULL
 )
 AS
 BEGIN
@@ -112,6 +113,31 @@ BEGIN
 		LENGTH = COALESCE(@LENGTH, LENGTH),
 		BLUEPRINT_IMAGE = COALESCE(@BLUEPRINT_IMAGE, BLUEPRINT_IMAGE)
 	WHERE TUID = @TUID
+
+	-- INSERT users into the Access table for the new store, but only if they don't already exist
+	IF @USER_TUIDS IS NOT NULL AND @USER_TUIDS <> ''
+	BEGIN
+		-- Delete all existing access records for this store
+		DELETE FROM Access
+			WHERE STORE_TUID = @TUID;
+
+		--INSERT all Owners into the Access table for the new store
+		INSERT INTO Access (USER_TUID, STORE_TUID)
+			SELECT Users.TUID, @TUID
+			FROM Users
+			WHERE Users.ROLE_TUID = 1 --Owner TUID is 1 in DB
+
+		INSERT INTO Access (USER_TUID, STORE_TUID)
+		SELECT VALUE, @TUID
+		FROM STRING_SPLIT(@USER_TUIDS, ',') AS split
+		WHERE NOT EXISTS (
+			SELECT 1
+			FROM Access AS a
+			WHERE a.USER_TUID = split.VALUE
+			  AND a.STORE_TUID = @TUID
+		)
+	END
+
 END
 GO
 
