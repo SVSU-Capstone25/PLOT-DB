@@ -477,7 +477,7 @@ GO
 SET IDENTITY_INSERT dbo.Users ON;
 
 INSERT INTO dbo.Users (TUID, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, ROLE_TUID, ACTIVE)
-VALUES (0, 'Root', 'User', 'root@system.local', 'root', 1, 1);
+VALUES (0, 'Root', 'User', 'root@system.local', 'AQAAAAIAAYagAAAAEH9+H9OGqXjJmypWl+dxnNTp/ad7c07d0sDgDxpKRpVo6WFcL5vD1WosGqpIbDW3kg==', 1, 1);
 
 SET IDENTITY_INSERT dbo.Users OFF;
 
