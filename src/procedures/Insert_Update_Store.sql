@@ -120,19 +120,19 @@ BEGIN
 		BLUEPRINT_IMAGE = COALESCE(@BLUEPRINT_IMAGE, BLUEPRINT_IMAGE)
 	WHERE TUID = @TUID
 
+	-- Delete all existing access records for this store
+	DELETE FROM Access
+		WHERE STORE_TUID = @TUID;
+
+	--INSERT all Owners into the Access table for the new store
+	INSERT INTO Access (USER_TUID, STORE_TUID)
+		SELECT Users.TUID, @TUID
+		FROM Users
+		WHERE Users.ROLE_TUID = 1 --Owner TUID is 1 in DB
+
 	-- INSERT users into the Access table for the new store, but only if they don't already exist
 	IF @USER_TUIDS IS NOT NULL AND @USER_TUIDS <> ''
 	BEGIN
-		-- Delete all existing access records for this store
-		DELETE FROM Access
-			WHERE STORE_TUID = @TUID;
-
-		--INSERT all Owners into the Access table for the new store
-		INSERT INTO Access (USER_TUID, STORE_TUID)
-			SELECT Users.TUID, @TUID
-			FROM Users
-			WHERE Users.ROLE_TUID = 1 --Owner TUID is 1 in DB
-
 		INSERT INTO Access (USER_TUID, STORE_TUID)
 		SELECT VALUE, @TUID
 		FROM STRING_SPLIT(@USER_TUIDS, ',') AS split
