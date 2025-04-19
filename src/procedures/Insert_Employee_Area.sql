@@ -11,9 +11,9 @@ GO
 -- This SP inserts an employee area instance for a floorset
 -- ===============================================
 CREATE OR ALTER PROCEDURE [dbo].[Insert_Employee_Area]
-	@FLOORSET_TUID INT = NULL,
-	@X_POS INT = NULL,
-	@Y_POS INT = NULL
+	@FLOORSET_TUID INT,
+	@X_POS INT,
+	@Y_POS INT
 AS
 BEGIN
 	SET NOCOUNT ON

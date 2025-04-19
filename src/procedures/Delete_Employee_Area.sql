@@ -11,9 +11,9 @@ GO
 -- This SP deletes an employee area instance
 -- ===============================================
 CREATE PROCEDURE [dbo].[Delete_Employee_Area]
-	@FLOORSET_TUID INT = NULL,
-	@X_POS INT = NULL,
-	@Y_POS INT = NULL
+	@FLOORSET_TUID INT,
+	@X_POS INT,
+	@Y_POS INT
 AS
 BEGIN
 	
