@@ -132,7 +132,7 @@ BEGIN
 
 	-- INSERT users into the Access table for the new store, but only if they don't already exist
 	IF @USER_TUIDS IS NOT NULL AND @USER_TUIDS <> ''
-	BEGIN
+	BEGIN	
 		INSERT INTO Access (USER_TUID, STORE_TUID)
 		SELECT VALUE, @TUID
 		FROM STRING_SPLIT(@USER_TUIDS, ',') AS split
@@ -171,7 +171,7 @@ BEGIN
     	END
 		ELSE 
     	BEGIN
-			EXEC [dbo].[Update_Store] @TUID, @NAME, @ADDRESS, @CITY, @STATE, @ZIP, @WIDTH, @LENGTH, @BLUEPRINT_IMAGE
+			EXEC [dbo].[Update_Store] @TUID, @NAME, @ADDRESS, @CITY, @STATE, @ZIP, @WIDTH, @LENGTH, @BLUEPRINT_IMAGE, @USER_TUIDS
     	END
 
 		--Return the newly inserted store TUID
