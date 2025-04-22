@@ -206,7 +206,7 @@ CREATE TABLE [dbo].[Fixtures](
 	[NAME] [varchar](100) NOT NULL,
 	[WIDTH] [int] NOT NULL,
 	[LENGTH] [int] NOT NULL,
-	[LF_CAP] [int] NOT NULL,
+	[LF_CAP] AS (WIDTH * LENGTH),
 	[ICON] [varbinary](max) NOT NULL,
 	[STORE_TUID] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
