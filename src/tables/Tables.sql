@@ -471,21 +471,3 @@ GO
 
 ALTER TABLE [dbo].[Employee_Area] CHECK CONSTRAINT [FK_Floorset_Positions_Floorsets]
 GO
-
--- ***************************************************************************************
--- Inserting Root User on restart of adding tables.
-SET IDENTITY_INSERT dbo.Users ON;
-
-INSERT INTO dbo.Users (TUID, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, ROLE_TUID, ACTIVE)
-VALUES (0, 'Root', 'User', 'root@system.local', 'AQAAAAIAAYagAAAAEH9+H9OGqXjJmypWl+dxnNTp/ad7c07d0sDgDxpKRpVo6WFcL5vD1WosGqpIbDW3kg==', 1, 1);
-
-SET IDENTITY_INSERT dbo.Users OFF;
-
--- Grant root user access to all existing stores
-INSERT INTO Access (USER_TUID, STORE_TUID)
-SELECT 0, TUID
-FROM Stores
-WHERE NOT EXISTS (
-    SELECT 1 FROM Access WHERE USER_TUID = 0 AND STORE_TUID = Stores.TUID
-);
--- ***************************************************************************************
