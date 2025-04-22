@@ -57,7 +57,11 @@ VALUES
 (4,4,60,30,3,28,'Suits','Testing Notes Column', 1, 1),
 (5,5,30,60,4,87,'Hats','Testing Notes Column', 1, 1),
 (5,6,60,30,3,45,'Bottoms Khaki','Testing Notes Column', 1, 2),
-(5,7,18,23,1,4,'Belts', 'Testing Notes Column', 3, 3);
+(5,7,18,23,1,4,'Belts', 'Testing Notes Column', 3, 3),
+(5,1,0,0,3,70,'Athleticwear Jackets', 'Testing Notes Column', 1, 1),
+(5,2,20,20,2,30,'Bottoms Denim', 'Testing Notes Column', 1, 1),
+(5,3,30,15,1,17,'Athleticwear Pants', 'Testing Notes Column', 1, 1),
+(5,4,60,30,3,28,'Suits','Testing Notes Column', 1, 1);
 
 -- All passwords are "password"
 INSERT INTO Users ([FIRST_NAME], [LAST_NAME], [EMAIL], [PASSWORD], [ROLE_TUID], [ACTIVE]) 
@@ -126,7 +130,8 @@ VALUES
 ('Athleticwear Jackets', 1, 370, 5),
 ('Athleticwear Pants', 1, 819, 5),
 ('Bottoms Denim', 2, 3030, 5),
-('Bottoms Khaki', 2, 515, 5);
+('Bottoms Khaki', 2, 515, 5),
+('Suits', 2, 320, 5);
 
 INSERT INTO Employee_Area 
 ([FLOORSET_TUID], [X_POS], [Y_POS])
