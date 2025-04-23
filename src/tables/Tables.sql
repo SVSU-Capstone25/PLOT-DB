@@ -206,7 +206,7 @@ CREATE TABLE [dbo].[Fixtures](
 	[NAME] [varchar](100) NOT NULL,
 	[WIDTH] [int] NOT NULL,
 	[LENGTH] [int] NOT NULL,
-	[LF_CAP] AS (WIDTH * LENGTH),
+	[LF_CAP] [int] NOT NULL,
 	[ICON] [varbinary](max) NOT NULL,
 	[STORE_TUID] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
@@ -225,9 +225,6 @@ REFERENCES [dbo].[Stores] ([TUID])
 GO
 
 ALTER TABLE [dbo].[Fixtures] CHECK CONSTRAINT [FK_STORE_TUIDX]
-GO
-
-ALTER TABLE [dbo].[Fixtures] ADD DEFAULT (1) FOR [LF_CAP]
 GO
 
 /*
