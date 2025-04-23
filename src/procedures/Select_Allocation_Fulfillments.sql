@@ -25,35 +25,43 @@ CREATE OR ALTER PROCEDURE [dbo].[Select_Allocation_Fulfillments]
 )
 AS
 BEGIN
-	SELECT 
-		sc.TUID,
-		sc.NAME AS SUPERCATEGORY_NAME,
-		sa.SUBCATEGORY,
-		sc.COLOR AS SUPERCATEGORY_COLOR,
-		SUM(ff.ALLOCATED_LF) AS CURRENT_LF,
-		FLOOR(
-			SUM(sa.TOTAL_SALES) * 1.0 /
-			(
-				SELECT SUM(sa2.TOTAL_SALES)
-				FROM Sales_Allocation AS sa2
-					JOIN Floorsets_Fixtures AS ff2 
-						ON sa2.SUBCATEGORY = ff2.SUBCATEGORY
-				WHERE ff2.FLOORSET_TUID = 5
-			 )
-			*
-			(
-				SELECT TOTAL_INSTANCE_LF 
-				FROM dbo.Get_Total_Floorset_LF(5)
-			)
-		) AS NEEDED_LF
-	FROM Sales_Allocation AS sa 
-		JOIN Floorsets_Fixtures AS ff 
-			ON sa.SUBCATEGORY = ff.SUBCATEGORY
-		JOIN Fixtures AS f 
-			ON f.TUID = ff.FIXTURE_TUID
-		JOIN Supercategories AS sc 
-			ON sc.TUID = sa.SUPERCATEGORY_TUID
-	WHERE ff.FLOORSET_TUID = 5
-	GROUP BY sc.TUID, sa.SUBCATEGORY, sc.COLOR, sc.NAME;
+	SET NOCOUNT ON;
+
+    SELECT 
+        sc.TUID,
+        sc.NAME AS SUPERCATEGORY_NAME,
+        sa.SUBCATEGORY,
+        sc.COLOR AS SUPERCATEGORY_COLOR,
+        ISNULL(SUM(ff.ALLOCATED_LF), 0) AS CURRENT_LF,
+        CASE 
+            WHEN SUM(sa2.TOTAL_SALES) IS NULL OR SUM(sa2.TOTAL_SALES) = 0 THEN 0
+            ELSE FLOOR(
+                SUM(sa.TOTAL_SALES) * 1.0 /
+                SUM(sa2.TOTAL_SALES) *
+                ISNULL((
+                    SELECT TOTAL_INSTANCE_LF 
+                    FROM dbo.Get_Total_Floorset_LF(@FLOORSET_TUID)
+                ), 0)
+            )
+        END AS NEEDED_LF
+    FROM Sales_Allocation AS sa
+    LEFT JOIN Floorsets_Fixtures AS ff 
+        ON sa.SUBCATEGORY = ff.SUBCATEGORY AND ff.FLOORSET_TUID = @FLOORSET_TUID
+    LEFT JOIN Fixtures AS f 
+        ON f.TUID = ff.FIXTURE_TUID
+    JOIN Supercategories AS sc 
+        ON sc.TUID = sa.SUPERCATEGORY_TUID
+    LEFT JOIN Sales_Allocation AS sa2 
+        ON sa2.SUPERCATEGORY_TUID = sa.SUPERCATEGORY_TUID
+        AND EXISTS (
+            SELECT 1
+            FROM Floorsets_Fixtures AS ff2
+            WHERE ff2.FLOORSET_TUID = @FLOORSET_TUID AND ff2.SUBCATEGORY = sa2.SUBCATEGORY
+        )
+    WHERE sa.SALES_TUID IN (
+        SELECT TUID FROM Sales WHERE FLOORSET_TUID = @FLOORSET_TUID
+    )
+    GROUP BY sc.TUID, sa.SUBCATEGORY, sc.COLOR, sc.NAME
+    ORDER BY sc.TUID DESC;
 END
 GO
