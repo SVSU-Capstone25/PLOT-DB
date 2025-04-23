@@ -49,20 +49,6 @@ VALUES
 ('Feb25 Floorset', 2, '1/26/2025', 3, '1/28/2025', 1, 0x89504e470d0a1a0a0000000d494844520000000200000002080000000057dd52f800000123694343504943432070726f66696c65000028919d90bf4ac35014c67fa9a58a7f70501cc421836b4733395815825021c60a56a73449b198c490a414dfc037d187e92008be83ab82b3df8d0e0e66f1c2e1fb7138e7fbeebdd0b293302ddb07906655e1fabde1e5f0ca5e7ca3cd3a1d56b082b0cc7b9ed7a7f17cbe62197de91aafe6b93f4f278acb503a5765615e5460ed8b9d59951b56b1793bf08fc40f623b4ab348fc24de8dd2c8b0d9f5d3641afe789adbacc6d9c5b9e9ab767039e1140f9b115326245474a5993ac738ec495d0a02ee2909a509b17a33cd54dc884a39b91c8a0622dda6216fbbcef3943292c7445e26e18e549e260ff3bfdf6b1f67f5a6b535cf8322a85b0baad6780cef8fb036848d6758be6ec85afafdb68619a79ef9e71bbf009c91503e3b36d238000000097048597300002e2300002e230178a53f760000000774494d4507e9040f060c04ff29a1db0000001974455874436f6d6d656e74004372656174656420776974682047494d5057810e170000000e4944415408d76360facff09f0900060c0203414027170000000049454e44ae426082),
 ('March25 Floorset', 3, '1/26/2025', 4, '1/30/2025', 4, 0x89504e470d0a1a0a0000000d494844520000000200000002080000000057dd52f800000123694343504943432070726f66696c65000028919d90bf4ac35014c67fa9a58a7f70501cc421836b4733395815825021c60a56a73449b198c490a414dfc037d187e92008be83ab82b3df8d0e0e66f1c2e1fb7138e7fbeebdd0b293302ddb07906655e1fabde1e5f0ca5e7ca3cd3a1d56b082b0cc7b9ed7a7f17cbe62197de91aafe6b93f4f278acb503a5765615e5460ed8b9d59951b56b1793bf08fc40f623b4ab348fc24de8dd2c8b0d9f5d3641afe789adbacc6d9c5b9e9ab767039e1140f9b115326245474a5993ac738ec495d0a02ee2909a509b17a33cd54dc884a39b91c8a0622dda6216fbbcef3943292c7445e26e18e549e260ff3bfdf6b1f67f5a6b535cf8322a85b0baad6780cef8fb036848d6758be6ec85afafdb68619a79ef9e71bbf009c91503e3b36d238000000097048597300002e2300002e230178a53f760000000774494d4507e9040f060c04ff29a1db0000001974455874436f6d6d656e74004372656174656420776974682047494d5057810e170000000e4944415408d76360facff09f0900060c0203414027170000000049454e44ae426082);
 
-INSERT INTO Floorsets_Fixtures ([FLOORSET_TUID], [FIXTURE_TUID], [X_POS], [Y_POS], [HANGER_STACK], [ALLOCATED_LF], [SUBCATEGORY], [NOTE], [SUPERCATEGORY_TUID], [EDITOR_ID])
-VALUES
-(1,1,0,0,3,70,'Athleticwear Jackets', 'Testing Notes Column', 1, 1),
-(2,2,20,20,2,30,'Bottoms Denim', 'Testing Notes Column', 1, 1),
-(3,3,30,15,1,17,'Athleticwear Pants', 'Testing Notes Column', 1, 1),
-(4,4,60,30,3,28,'Suits','Testing Notes Column', 1, 1),
-(5,5,30,60,4,87,'Hats','Testing Notes Column', 1, 1),
-(5,6,60,30,3,45,'Bottoms Khaki','Testing Notes Column', 1, 2),
-(5,7,18,23,1,4,'Belts', 'Testing Notes Column', 3, 3),
-(5,1,0,0,3,70,'Athleticwear Jackets', 'Testing Notes Column', 1, 1),
-(5,2,20,20,2,30,'Bottoms Denim', 'Testing Notes Column', 1, 1),
-(5,3,30,15,1,17,'Athleticwear Pants', 'Testing Notes Column', 1, 1),
-(5,4,60,30,3,28,'Suits','Testing Notes Column', 1, 1);
-
 -- All passwords are "password"
 INSERT INTO Users ([FIRST_NAME], [LAST_NAME], [EMAIL], [PASSWORD], [ROLE_TUID], [ACTIVE]) 
 VALUES 
@@ -90,48 +76,6 @@ VALUES
 (4,3),
 (8,3),
 (9,3);
-
-INSERT INTO Sales ([FILENAME], [FILEDATA], [CAPTURE_DATE], [DATE_UPLOADED], [FLOORSET_TUID])
-VALUES
-('SalesOct23.xlsx', CONVERT(VARBINARY(MAX), '\Excel\SalesData\DummyFile.txt'), '10/1/2023', '10/7/2024', 1),
-('SalesDec23.xlsx', CONVERT(VARBINARY(MAX), '\Excel\SalesData\DummyFile.txt'), '11/29/2023', '11/30/2024', 2),
-('SalesJan24.xlsx', CONVERT(VARBINARY(MAX), '\Excel\SalesData\DummyFile.txt'), '1/1/2024', '1/5/2025', 3),
-('SalesFeb24.xlxs', CONVERT(VARBINARY(MAX), '\Excel\SalesData\DummyFile.txt'), '2/1/2024', '1/26/2025', 4),
-('SalesMar24.xlsx', CONVERT(VARBINARY(MAX), '\Excel\SalesData\DummyFile.txt'), '3/1/2024', '1/26/2025', 5);
-
-INSERT INTO Sales_Allocation ([SUBCATEGORY], [SUPERCATEGORY_TUID], [TOTAL_SALES], [SALES_TUID])
-VALUES
-('Belts', 3, 155, 1),
-('Hats', 3, 207, 1),
-('Athleticwear Jackets', 1, 370, 1),
-('Athleticwear Pants', 1, 819, 1),
-('Bottoms Denim', 2, 3030, 1),
-('Bottoms Khaki', 2, 515, 1),
-('Belts', 3, 155, 2),
-('Hats', 3, 207, 2),
-('Athleticwear Jackets', 1, 370, 2),
-('Athleticwear Pants', 1, 819, 2),
-('Bottoms Denim', 2, 3030, 2),
-('Bottoms Khaki', 2, 515, 2),
-('Belts', 3, 155, 3),
-('Hats', 3, 207, 3),
-('Athleticwear Jackets', 1, 370, 3),
-('Athleticwear Pants', 1, 819, 3),
-('Bottoms Denim', 2, 3030, 3),
-('Bottoms Khaki', 2, 515, 3),
-('Belts', 3, 155, 4),
-('Hats', 3, 207, 4),
-('Athleticwear Jackets', 1, 370, 4),
-('Athleticwear Pants', 1, 819, 4),
-('Bottoms Denim', 2, 3030, 4),
-('Bottoms Khaki', 2, 515, 4),
-('Belts', 3, 155, 5),
-('Hats', 3, 207, 5),
-('Athleticwear Jackets', 1, 370, 5),
-('Athleticwear Pants', 1, 819, 5),
-('Bottoms Denim', 2, 3030, 5),
-('Bottoms Khaki', 2, 515, 5),
-('Suits', 2, 320, 5);
 
 INSERT INTO Employee_Area 
 ([FLOORSET_TUID], [X_POS], [Y_POS])
