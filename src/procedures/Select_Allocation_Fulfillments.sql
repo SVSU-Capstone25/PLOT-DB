@@ -38,12 +38,12 @@ BEGIN
 				FROM Sales_Allocation AS sa2
 					JOIN Floorsets_Fixtures AS ff2 
 						ON sa2.SUBCATEGORY = ff2.SUBCATEGORY
-				WHERE ff2.FLOORSET_TUID = 5
+				WHERE ff2.FLOORSET_TUID = @FLOORSET_TUID
 			 )
 			*
 			(
 				SELECT TOTAL_INSTANCE_LF 
-				FROM dbo.Get_Total_Floorset_LF(5)
+				FROM dbo.Get_Total_Floorset_LF(@FLOORSET_TUID)
 			)
 		) AS NEEDED_LF
 	FROM Sales_Allocation AS sa 
@@ -53,7 +53,7 @@ BEGIN
 			ON f.TUID = ff.FIXTURE_TUID
 		JOIN Supercategories AS sc 
 			ON sc.TUID = sa.SUPERCATEGORY_TUID
-	WHERE ff.FLOORSET_TUID = 5
+	WHERE ff.FLOORSET_TUID = @FLOORSET_TUID
 	GROUP BY sc.TUID, sa.SUBCATEGORY, sc.COLOR, sc.NAME;
 END
 GO
