@@ -109,15 +109,30 @@ CREATE OR ALTER PROCEDURE [dbo].[Insert_Update_Floorset_Fixture]
 AS
 BEGIN
 	BEGIN TRY
+		DECLARE @WIDTH INT, @LENGTH INT;
+
+		-- Get Store dimensions using the Floorset
+		SELECT @WIDTH = S.WIDTH, @LENGTH = S.LENGTH
+		FROM Floorsets F
+		JOIN Stores S ON F.STORE_TUID = S.TUID
+		WHERE F.TUID = @FLOORSET_TUID;
+
+		-- Check if the X/Y position is within bounds
+		IF @XPOS < 0 OR @YPOS < 0 OR @XPOS >= @WIDTH OR @YPOS >= @LENGTH
+		BEGIN
+			RAISERROR('X_POS or Y_POS out of store bounds.', 16, 1);
+			RETURN;
+		END
+
+		-- Check for duplicate position
 		IF NOT EXISTS (
-		SELECT 1 
+			SELECT 1 
 			FROM Floorsets_Fixtures 
 			WHERE FLOORSET_TUID = @FLOORSET_TUID AND
-				X_POS = @XPOS AND Y_POS = @YPOS
+				  X_POS = @XPOS AND Y_POS = @YPOS
 		)
-
 		BEGIN
-		IF @TUID IS NULL
+			IF @TUID IS NULL
 			BEGIN
 				EXEC [dbo].[Insert_Floorset_Fixture] 
 					@FLOORSET_TUID,
@@ -130,7 +145,7 @@ BEGIN
 					@SUBCATEGORY,
 					@NOTE
 			END
-		ELSE
+			ELSE
 			BEGIN
 				EXEC [dbo].[Update_Floorset_Fixture]
 					@TUID,
@@ -145,10 +160,13 @@ BEGIN
 			END
 			SELECT 200 AS Response
 		END
+		ELSE
+		BEGIN
+			RAISERROR('This X_POS and Y_POS is already occupied for this FLOORSET.', 16, 1);
+		END
 	END TRY
 	BEGIN CATCH
-        -- If insert fails, return ERROR 500
-        SELECT 500 AS Response, ERROR_MESSAGE() AS ErrorDetails;
-    END CATCH;
-END	
+		SELECT 500 AS Response, ERROR_MESSAGE() AS ErrorDetails;
+	END CATCH
+END
 GO
