@@ -32,18 +32,12 @@ BEGIN
         sc.NAME AS SUPERCATEGORY_NAME,
         sa.SUBCATEGORY,
         sc.COLOR AS SUPERCATEGORY_COLOR,
-        ISNULL(SUM(ff.ALLOCATED_LF), 0) AS CURRENT_LF,
-        CASE 
-            WHEN SUM(sa2.TOTAL_SALES) IS NULL OR SUM(sa2.TOTAL_SALES) = 0 THEN 0
-            ELSE FLOOR(
-                SUM(sa.TOTAL_SALES) * 1.0 /
-                SUM(sa2.TOTAL_SALES) *
-                ISNULL((
-                    SELECT TOTAL_INSTANCE_LF 
-                    FROM dbo.Get_Total_Floorset_LF(@FLOORSET_TUID)
-                ), 0)
-            )
-        END AS NEEDED_LF
+        ISNULL(SUM(f.LF_CAP * ff.HANGER_STACK), 0) AS CURRENT_LF,
+        SUM(sa.TOTAL_SALES) AS TOTAL_SALES,
+        (
+            SELECT TOTAL_INSTANCE_LF 
+                FROM dbo.Get_Total_Floorset_LF(@FLOORSET_TUID)
+        ) AS TOTAL_FLOORSET_LF
     FROM Sales_Allocation AS sa
     LEFT JOIN Floorsets_Fixtures AS ff 
         ON sa.SUBCATEGORY = ff.SUBCATEGORY 
@@ -53,13 +47,6 @@ BEGIN
         ON f.TUID = ff.FIXTURE_TUID
     JOIN Supercategories AS sc 
         ON sc.TUID = sa.SUPERCATEGORY_TUID
-    LEFT JOIN Sales_Allocation AS sa2 
-        ON sa2.SUPERCATEGORY_TUID = sa.SUPERCATEGORY_TUID
-        AND EXISTS (
-            SELECT 1
-            FROM Floorsets_Fixtures AS ff2
-            WHERE ff2.FLOORSET_TUID = @FLOORSET_TUID AND ff2.SUBCATEGORY = sa2.SUBCATEGORY
-        )
     WHERE sa.SALES_TUID IN (
         SELECT TUID FROM Sales WHERE FLOORSET_TUID = @FLOORSET_TUID
     )
