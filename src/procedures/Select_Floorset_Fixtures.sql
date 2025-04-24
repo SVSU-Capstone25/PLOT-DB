@@ -28,14 +28,12 @@ BEGIN
         Floorsets_Fixtures.X_POS,
         Floorsets_Fixtures.Y_POS, 
         Floorsets_Fixtures.HANGER_STACK,
-        Floorsets_Fixtures.ALLOCATED_LF, 
         (Floorsets_Fixtures.HANGER_STACK * Fixtures.LF_CAP) AS TOT_LF, 
         Floorsets_Fixtures.NOTE, 
     	Floorsets_Fixtures.SUPERCATEGORY_TUID,
         Floorsets_Fixtures.SUBCATEGORY,
         SuperCategories.NAME AS SUPERCATEGORY_NAME, 
         SuperCategories.COLOR,
-        Floorsets_Fixtures.EDITOR_ID,
         Floorsets_Fixtures.FIXTURE_IDENTIFIER
     FROM Floorsets_Fixtures
     JOIN SuperCategories

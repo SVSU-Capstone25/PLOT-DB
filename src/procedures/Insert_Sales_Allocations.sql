@@ -32,7 +32,7 @@ BEGIN
         SELECT 200 AS Response;
     END TRY
     BEGIN CATCH
-        ROLLBACK TRANSACTION;
+        
         SELECT 500 AS Response, ERROR_MESSAGE() AS ErrorDetails;
     END CATCH;
 END;

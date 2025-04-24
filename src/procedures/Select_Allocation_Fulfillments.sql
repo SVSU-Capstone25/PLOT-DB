@@ -25,35 +25,32 @@ CREATE OR ALTER PROCEDURE [dbo].[Select_Allocation_Fulfillments]
 )
 AS
 BEGIN
-	SELECT 
-		sc.TUID,
-		sc.NAME AS SUPERCATEGORY_NAME,
-		sa.SUBCATEGORY,
-		sc.COLOR AS SUPERCATEGORY_COLOR,
-		SUM(ff.ALLOCATED_LF) AS CURRENT_LF,
-		FLOOR(
-			SUM(sa.TOTAL_SALES) * 1.0 /
-			(
-				SELECT SUM(sa2.TOTAL_SALES)
-				FROM Sales_Allocation AS sa2
-					JOIN Floorsets_Fixtures AS ff2 
-						ON sa2.SUBCATEGORY = ff2.SUBCATEGORY
-				WHERE ff2.FLOORSET_TUID = @FLOORSET_TUID
-			 )
-			*
-			(
-				SELECT TOTAL_INSTANCE_LF 
-				FROM dbo.Get_Total_Floorset_LF(@FLOORSET_TUID)
-			)
-		) AS NEEDED_LF
-	FROM Sales_Allocation AS sa 
-		JOIN Floorsets_Fixtures AS ff 
-			ON sa.SUBCATEGORY = ff.SUBCATEGORY
-		JOIN Fixtures AS f 
-			ON f.TUID = ff.FIXTURE_TUID
-		JOIN Supercategories AS sc 
-			ON sc.TUID = sa.SUPERCATEGORY_TUID
-	WHERE ff.FLOORSET_TUID = @FLOORSET_TUID
-	GROUP BY sc.TUID, sa.SUBCATEGORY, sc.COLOR, sc.NAME;
+	SET NOCOUNT ON;
+
+    SELECT 
+        sc.TUID,
+        sc.NAME AS SUPERCATEGORY_NAME,
+        sa.SUBCATEGORY,
+        sc.COLOR AS SUPERCATEGORY_COLOR,
+        ISNULL(SUM(f.LF_CAP * ff.HANGER_STACK), 0) AS CURRENT_LF,
+        SUM(sa.TOTAL_SALES) AS TOTAL_SALES,
+        (
+            SELECT TOTAL_INSTANCE_LF 
+                FROM dbo.Get_Total_Floorset_LF(@FLOORSET_TUID)
+        ) AS TOTAL_FLOORSET_LF
+    FROM Sales_Allocation AS sa
+    LEFT JOIN Floorsets_Fixtures AS ff 
+        ON sa.SUBCATEGORY = ff.SUBCATEGORY 
+    	AND ff.FLOORSET_TUID = @FLOORSET_TUID
+    	AND ff.SUPERCATEGORY_TUID = sa.SUPERCATEGORY_TUID
+    LEFT JOIN Fixtures AS f 
+        ON f.TUID = ff.FIXTURE_TUID
+    JOIN Supercategories AS sc 
+        ON sc.TUID = sa.SUPERCATEGORY_TUID
+    WHERE sa.SALES_TUID IN (
+        SELECT TUID FROM Sales WHERE FLOORSET_TUID = @FLOORSET_TUID
+    )
+    GROUP BY sc.TUID, sa.SUBCATEGORY, sc.COLOR, sc.NAME
+    ORDER BY sc.TUID DESC;
 END
 GO

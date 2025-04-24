@@ -17,7 +17,6 @@ GO
 -- it wouldn't have a functional role to play, and risks introducing bugs in the future.
 CREATE OR ALTER PROCEDURE [dbo].[Insert_Sales_File]
 (
-    @TUID INT = NULL,
 	@FILE_NAME VARCHAR(100) = NULL,
 	@FILE_DATA VARBINARY(MAX) = NULL,
 	@CAPTURE_DATE DATETIME = NULL,
