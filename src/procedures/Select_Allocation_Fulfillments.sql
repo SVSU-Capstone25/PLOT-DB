@@ -46,7 +46,9 @@ BEGIN
         END AS NEEDED_LF
     FROM Sales_Allocation AS sa
     LEFT JOIN Floorsets_Fixtures AS ff 
-        ON sa.SUBCATEGORY = ff.SUBCATEGORY AND ff.FLOORSET_TUID = @FLOORSET_TUID
+        ON sa.SUBCATEGORY = ff.SUBCATEGORY 
+    	AND ff.FLOORSET_TUID = @FLOORSET_TUID
+    	AND ff.SUPERCATEGORY_TUID = sa.SUPERCATEGORY_TUID
     LEFT JOIN Fixtures AS f 
         ON f.TUID = ff.FIXTURE_TUID
     JOIN Supercategories AS sc 
