@@ -80,8 +80,8 @@ run_sql_scripts() {
 
 echo -e "\n✅  SQL Server is ready. Starting initialization. ✅"
 
-echo -e "\n🧹  Clearing database... 🧹"
-/opt/mssql-tools18/bin/sqlcmd -C -d "$DB_NAME" -i "/usr/config/src/delete.sql" >>/tmp/sql.log
+# echo -e "\n🧹  Clearing database... 🧹"
+# /opt/mssql-tools18/bin/sqlcmd -C -d "$DB_NAME" -i "/usr/config/src/delete.sql" >>/tmp/sql.log
 
 # Run SQL scripts in order of dependencies
 run_sql_scripts "/usr/config/src/tables"
